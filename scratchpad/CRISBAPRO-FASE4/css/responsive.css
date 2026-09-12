@@ -1,0 +1,484 @@
+/* ========================================
+   RESPONSIVE DESIGN - Mobile First
+   Breakpoints: 375px, 768px, 1024px, 1440px
+   ======================================== */
+
+/* ========================================
+   MOBILE (≤375px) - Base
+   ======================================== */
+
+@media (max-width: 767px) {
+  :root {
+    --h1-size: var(--h1-size-mobile);
+    --h2-size: var(--h2-size-mobile);
+  }
+
+  body {
+    font-size: 16px;
+  }
+
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+
+  /* Header Mobile */
+  .header {
+    height: var(--header-height-mobile);
+  }
+
+  .header-container {
+    padding: 0 var(--spacing-md);
+  }
+
+  .nav {
+    display: none;
+    position: absolute;
+    top: var(--header-height-mobile);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--spacing-lg);
+    gap: var(--spacing-md);
+    width: 100%;
+    box-shadow: var(--shadow-md);
+    z-index: 99;
+  }
+
+  .nav.active {
+    display: flex;
+  }
+
+  .nav-link {
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header-contact {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: flex;
+    order: 3;
+  }
+
+  /* Hero Mobile */
+  .hero {
+    margin-top: var(--header-height-mobile);
+    height: 300px;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  /* Trust Grid */
+  .trust-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  /* Servicios Grid */
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card {
+    padding: var(--spacing-md);
+  }
+
+  /* Carousel */
+  .carousel-slide img {
+    height: 250px;
+  }
+
+  /* Proceso */
+  .process-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .process-step {
+    text-align: center;
+  }
+
+  /* Sectores */
+  .sectors-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Formulario */
+  .quote-form {
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+  }
+
+  .btn-lg {
+    width: 100%;
+  }
+
+  /* Footer */
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-bottom {
+    text-align: center;
+  }
+
+  section {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  h1 {
+    font-size: 28px;
+    margin-bottom: var(--spacing-md);
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+}
+
+/* ========================================
+   TABLET (768px+)
+   ======================================== */
+
+@media (min-width: 768px) {
+  :root {
+    --h1-size: var(--h1-size-tablet);
+    --h2-size: var(--h2-size-tablet);
+  }
+
+  .container {
+    padding: 0 var(--spacing-lg);
+  }
+
+  /* Header Tablet */
+  .header {
+    height: var(--header-height-desktop);
+  }
+
+  .header-container {
+    padding: 0 var(--spacing-xl);
+  }
+
+  .nav {
+    display: flex !important;
+    position: static;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    gap: var(--spacing-lg);
+    box-shadow: none;
+    flex-direction: row;
+  }
+
+  .nav-link {
+    padding: 0;
+    border: none;
+    border-bottom: none;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  .header-contact {
+    display: flex;
+  }
+
+  /* Servicios Grid */
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Carousel */
+  .carousel-slide img {
+    height: 350px;
+  }
+
+  /* Proceso */
+  .process-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Sectores */
+  .sectors-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  h1 {
+    font-size: 36px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  section {
+    padding: var(--spacing-2xl) 0;
+  }
+}
+
+/* ========================================
+   DESKTOP (1024px+)
+   ======================================== */
+
+@media (min-width: 1024px) {
+  :root {
+    --h1-size: var(--h1-size);
+    --h2-size: var(--h2-size);
+  }
+
+  .container {
+    padding: 0 var(--spacing-xl);
+  }
+
+  .header-container {
+    padding: 0 var(--spacing-xl);
+  }
+
+  /* Servicios Grid */
+  .services-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Proceso */
+  .process-steps {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  /* Sectores */
+  .sectors-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Carousel */
+  .carousel-slide img {
+    height: 400px;
+  }
+
+  /* Hero */
+  .hero {
+    height: 500px;
+  }
+
+  section {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  h2 {
+    font-size: 36px;
+  }
+}
+
+/* ========================================
+   LARGE DESKTOP (1440px+)
+   ======================================== */
+
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1280px;
+    padding: 0 var(--spacing-xl);
+  }
+
+  .header-container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+}
+
+/* ========================================
+   ORIENTACIÓN - Landscape Mobile
+   ======================================== */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    height: 300px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+    margin-bottom: var(--spacing-md);
+  }
+
+  section {
+    padding: var(--spacing-lg) 0;
+  }
+
+  .header {
+    position: relative;
+  }
+}
+
+/* ========================================
+   ACCESIBILIDAD - Pantallas Grandes
+   ======================================== */
+
+@media (min-width: 1600px) {
+  :root {
+    --h1-size: 56px;
+    --h2-size: 42px;
+  }
+
+  .container {
+    max-width: 1400px;
+  }
+
+  .hero-title {
+    font-size: 56px;
+  }
+
+  section {
+    padding: var(--spacing-3xl) 0;
+  }
+}
+
+/* ========================================
+   IMPRESORA Y PANTALLA DE LECTURA
+   ======================================== */
+
+@media print {
+  .header,
+  .footer,
+  .hero-cta,
+  .btn,
+  .menu-toggle {
+    display: none !important;
+  }
+
+  .container {
+    max-width: 100%;
+  }
+
+  body {
+    background-color: white;
+    color: black;
+  }
+
+  a {
+    color: blue;
+    text-decoration: underline;
+  }
+}
+
+/* ========================================
+   ALTO CONTRASTE (Accesibilidad)
+   ======================================== */
+
+@media (prefers-contrast: more) {
+  :root {
+    --color-text-primary: #000000;
+    --color-primary-900: #000080;
+    --color-error-500: #FF0000;
+  }
+
+  .btn-primary {
+    border: 2px solid var(--color-error-500);
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-width: 2px;
+  }
+}
+
+/* ========================================
+   ZOOM Y ESCALADO
+   ======================================== */
+
+@media (prefers-reduced-data: reduce) {
+  * {
+    background-attachment: scroll !important;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
+/* ========================================
+   SOPORTE PARA NOTCH Y SAFE AREA
+   ======================================== */
+
+@supports (padding: max(0px)) {
+  .header {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+
+  .container {
+    padding-left: max(var(--spacing-lg), env(safe-area-inset-left));
+    padding-right: max(var(--spacing-lg), env(safe-area-inset-right));
+  }
+
+  .footer {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+    padding-bottom: max(var(--spacing-lg), env(safe-area-inset-bottom));
+  }
+}
+
+/* ========================================
+   POINTER EVENTS Y HOVER
+   ======================================== */
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  .service-card:active {
+    transform: translateY(-2px);
+  }
+}
+
+/* ========================================
+   DARK MODE MEDIA QUERY (Futuro)
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--color-background);
+  }
+
+  .service-card,
+  .sector-card {
+    background-color: var(--color-surface-50);
+  }
+}
