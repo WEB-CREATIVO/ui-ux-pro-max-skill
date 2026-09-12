@@ -14,12 +14,18 @@ A comprehensive collection of animation skills following Emil Kowalski's animati
 - **Documentation:** See individual skill files for detailed usage
 
 #### Skills Included:
+
+**✅ Installed & Ready:**
 1. **animate** - Build animations from scratch with structured decision-making
-2. **animate-expo** - Animation skills for React Native/Expo
-3. **animation-vocabulary** - Understanding animation terminology and concepts
-4. **find-animation-opportunities** - Identify where animations should be used
-5. **improve-animations** - Audit and improve existing animations
-6. **review-animations** - Critique and review animation implementations
+2. **find-animation-opportunities** - Identify where animations should be used
+3. **improve-animations** - Audit and improve existing animations
+4. **review-animations** - Critique and review animation implementations
+
+**Reference Only:**
+5. **animation-vocabulary** - Understanding animation terminology and concepts (see ANIMATE-REFERENCE.md)
+
+**Not Installed:**
+6. **animate-expo** - Animation skills for React Native/Expo (web projects only)
 
 ## How to Use
 
