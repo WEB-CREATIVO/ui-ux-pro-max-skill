@@ -37,14 +37,15 @@ Guía completa para instalar y configurar el tema CRISBAPRO en WordPress.
 
 ## Paso 3: Instalar y Activar Plugins Requeridos
 
-### ACF PRO (Obligatorio)
+### ACF (Advanced Custom Fields) - Versión Gratuita
 
-1. Comprar licencia: https://www.advancedcustomfields.com/
-2. WordPress Admin > Plugins > Agregar nuevo
-3. Subir plugin ACF PRO
-4. Activar
+1. WordPress Admin > Plugins > Agregar nuevo
+2. Buscar "Advanced Custom Fields"
+3. Instalar y activar la versión gratuita
 
-**Sin ACF PRO, los campos de HOME no funcionarán.**
+**Nota:** La versión gratuita es completamente suficiente para este tema. Los campos básicos (texto, textarea, imagen, email) funcionan perfectamente. Solo necesitarías ACF PRO si en el futuro quieres agregar campos más complejos como repeater fields o flexible content.
+
+**Sin ACF, los campos de HOME no funcionarán.**
 
 ### Rank Math (Recomendado)
 

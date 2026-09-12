@@ -40,15 +40,15 @@ CRISBAPRO-TEMA-v1.0/
 
 - WordPress 5.9+
 - PHP 7.4+
-- Advanced Custom Fields PRO (recomendado)
-- Rank Math SEO (opcional pero recomendado)
+- Advanced Custom Fields (ACF) - versión gratuita es suficiente
+- Rank Math SEO (opcional pero recomendado para SEO)
 
 ## Instalación Rápida
 
 1. Descargar el tema
 2. Extraer en `/wp-content/themes/`
 3. Activar desde WordPress Admin > Apariencia > Temas
-4. Instalar y activar ACF PRO
+4. Instalar y activar ACF (versión gratuita)
 5. Ir a CRISBAPRO Settings para configurar contacto
 
 Consulta **INSTALACION-PASO-A-PASO.md** para instrucciones detalladas.
