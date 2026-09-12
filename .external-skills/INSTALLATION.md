@@ -16,10 +16,14 @@ This document explains how to install and use external skills from the `.externa
 
 ### Skills Installed ✅
 
+#### Emil Kowalski (Animation)
 - [x] **animate** - Core animation construction skill
 - [x] **find-animation-opportunities** - Animation audit and discovery  
 - [x] **review-animations** - Animation code review
 - [x] **improve-animations** - Codebase animation improvements
+
+#### Paul Bakaus (Design)
+- [x] **impeccable** - 23 commands for design, audit, polish, and shipping
 
 **Not Installed:**
 - animate-expo (React Native/Expo - not needed for web projects)

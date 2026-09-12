@@ -4,14 +4,14 @@ This folder contains references to external skills from other projects that are 
 
 ## Available External Skills
 
-### Emil Kowalski - Animation Skills
+### 1. Emil Kowalski - Animation Skills
 **Repository:** https://github.com/emilkowalski/skills
 
 A comprehensive collection of animation skills following Emil Kowalski's animation philosophy and best practices for building production-grade animations.
 
 - **Location:** `.external-skills/emil-kowalski/`
-- **Installation:** See `INSTALLATION.md`
-- **Documentation:** See individual skill files for detailed usage
+- **Installation:** ✅ INSTALLED
+- **Documentation:** See `ANIMATE-REFERENCE.md` and skill files
 
 #### Skills Included:
 
@@ -21,11 +21,25 @@ A comprehensive collection of animation skills following Emil Kowalski's animati
 3. **improve-animations** - Audit and improve existing animations
 4. **review-animations** - Critique and review animation implementations
 
-**Reference Only:**
-5. **animation-vocabulary** - Understanding animation terminology and concepts (see ANIMATE-REFERENCE.md)
+---
 
-**Not Installed:**
-6. **animate-expo** - Animation skills for React Native/Expo (web projects only)
+### 2. Paul Bakaus - Impeccable
+**Repository:** https://github.com/pbakaus/impeccable
+
+Comprehensive design guidance for AI agents: 23 commands for designing, auditing, polishing, and shipping production-grade frontend interfaces. Covers everything from layout and typography to accessibility and performance.
+
+- **Location:** `.external-skills/pbakaus/impeccable/`
+- **Installation:** ✅ INSTALLED (both `~/.claude/skills/impeccable/` and project reference)
+- **Documentation:** See `IMPECCABLE-REFERENCE.md` and skill files
+
+#### Capabilities:
+
+**✅ Available Commands:**
+- **Build:** init, shape, craft, document, extract
+- **Evaluate:** critique, audit  
+- **Refine:** polish, bolder, quieter, distill, clarify, adapt, optimize
+- **Enhance:** harden, onboard, animate, colorize, typeset, layout, delight, overdrive
+- **Iterate:** live (browser iteration)
 
 ## How to Use
 
