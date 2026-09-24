@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 1.6.0
+ * Version: 1.7.0
  *
  * Changelog:
+ * 1.7.0 - FINAL FIX: Use scrollIntoView() and data-scroll-to buttons for reliable scroll navigation
  * 1.6.0 - Fix anchor link with event delegation (robust smooth scroll that works with dynamic content)
  * 1.5.0 - Fix anchor link smooth scroll (add scroll-margin-top to sections, improve JS calculation)
  * 1.4.0 - Add ACF repeater for services (image, title, description), change "Ver Proyecto" to "Pide Presupuesto" with contact form link

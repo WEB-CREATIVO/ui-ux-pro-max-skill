@@ -1,48 +1,74 @@
 /**
  * CRISBAPRO Theme - Smooth Scroll
  * Smooth scrolling for anchor links and CTA buttons
- * Uses event delegation to work with dynamic content (ACF repeaters)
+ * Uses scrollIntoView for maximum reliability
  */
 
-// Use event delegation to handle all anchor links, including dynamic ones
+// Handle anchor links with hash href
 document.addEventListener('click', function(e) {
-  // Check if clicked element is an anchor with a hash href
   const anchor = e.target.closest('a[href^="#"]');
 
-  if (!anchor) return;
+  if (anchor) {
+    const href = anchor.getAttribute('href');
+    if (href === '#' || !href) return;
 
-  const href = anchor.getAttribute('href');
+    const target = document.querySelector(href);
+    if (!target) return;
 
-  // Skip if it's just a hash
-  if (href === '#' || !href) return;
+    e.preventDefault();
+    scrollToElement(target);
+  }
+});
 
-  const target = document.querySelector(href);
-  if (!target) return;
+// Handle buttons with data-scroll-to attribute
+document.addEventListener('click', function(e) {
+  const button = e.target.closest('[data-scroll-to]');
 
-  e.preventDefault();
+  if (button) {
+    const elementId = button.getAttribute('data-scroll-to');
+    if (!elementId) return;
 
-  // Get header height for offset calculation
-  const header = document.querySelector('.header');
-  const headerHeight = header ? header.offsetHeight : 0;
+    const target = document.getElementById(elementId);
+    if (!target) return;
 
-  // Calculate target position with extra padding
-  const targetRect = target.getBoundingClientRect();
-  const targetPosition = targetRect.top + window.pageYOffset - headerHeight - 20;
+    e.preventDefault();
+    scrollToElement(target);
+  }
+});
 
-  // Smooth scroll with fallback
+/**
+ * Scroll to element with smooth behavior
+ */
+function scrollToElement(element) {
+  if (!element) return;
+
   try {
+    // Use scrollIntoView with smooth behavior for maximum compatibility
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Update URL
+    const elementId = element.id;
+    if (elementId) {
+      window.history.pushState(null, null, '#' + elementId);
+    }
+  } catch (err) {
+    // Fallback: manual scroll calculation
+    const header = document.querySelector('.header');
+    const headerHeight = header ? header.offsetHeight : 0;
+    const targetRect = element.getBoundingClientRect();
+    const targetPosition = targetRect.top + window.pageYOffset - headerHeight - 20;
+
     window.scrollTo({
       top: Math.max(0, targetPosition),
       behavior: 'smooth'
     });
-  } catch (err) {
-    // Fallback for browsers that don't support smooth scrolling
-    window.scrollTo(0, Math.max(0, targetPosition));
-  }
 
-  // Update URL without page reload
-  window.history.pushState(null, null, href);
-});
+    const elementId = element.id;
+    if (elementId) {
+      window.history.pushState(null, null, '#' + elementId);
+    }
+  }
+}
 
 /**
  * Scroll to top functionality
@@ -57,15 +83,9 @@ function scrollToTop() {
 /**
  * Scroll to element by ID
  */
-function scrollToElement(elementId) {
+function scrollToElementById(elementId) {
   const element = document.getElementById(elementId);
   if (element) {
-    const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
-    const targetPosition = element.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
-
-    window.scrollTo({
-      top: Math.max(0, targetPosition),
-      behavior: 'smooth'
-    });
+    scrollToElement(element);
   }
 }

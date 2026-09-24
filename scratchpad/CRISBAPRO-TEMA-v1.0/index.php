@@ -64,7 +64,7 @@ get_header();
                         <?php endif; ?>
                         <h3><?php echo esc_html($title); ?></h3>
                         <p><?php echo esc_html($description); ?></p>
-                        <a href="#contacto" class="btn-link">Pide Presupuesto →</a>
+                        <button class="btn-link" data-scroll-to="contacto">Pide Presupuesto →</button>
                     </div>
                     <?php
                 }
