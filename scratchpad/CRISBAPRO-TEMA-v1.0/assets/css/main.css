@@ -75,8 +75,8 @@
   --line-height-relaxed: 1.75;
 
   /* Header */
-  --header-height-desktop: 80px;
-  --header-height-mobile: 64px;
+  --header-height-desktop: 60px;
+  --header-height-mobile: 48px;
 
   /* Border Radius */
   --radius-sm: 4px;
@@ -216,7 +216,7 @@ section {
   justify-content: space-between;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 var(--spacing-lg);
+  padding: 0 var(--spacing-md);
 }
 
 .logo-section {
@@ -240,7 +240,7 @@ section {
 
 .nav {
   display: flex;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
   align-items: center;
   flex: 1;
   justify-content: center;
@@ -249,19 +249,22 @@ section {
 .nav-menu {
   list-style: none;
   display: flex;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
   width: 100%;
   justify-content: space-around;
   flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-link {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   font-weight: 500;
   color: var(--color-text-primary);
-  padding: var(--spacing-sm) 0;
+  padding: 0;
   border-bottom: 2px solid transparent;
   transition: all var(--transition-fast);
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -271,7 +274,7 @@ section {
 
 .header-contact {
   display: flex;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
   align-items: center;
   flex-shrink: 0;
 }
@@ -309,7 +312,7 @@ section {
    ======================================== */
 
 .hero {
-  height: 500px;
+  height: 100vh;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -318,7 +321,8 @@ section {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin-top: var(--header-height-desktop);
+  margin-top: 0;
+  padding-top: var(--header-height-desktop);
 }
 
 .hero::before {
