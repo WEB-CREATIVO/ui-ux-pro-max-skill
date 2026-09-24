@@ -48,48 +48,40 @@ get_header();
     <div class="container">
         <h2>Nuestros Servicios de Rotulación</h2>
         <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">💡</div>
-                <h3>Rótulos Luminosos</h3>
-                <p>Diseño y fabricación de rótulos luminosos LED de alta eficiencia energética</p>
-                <a href="#" class="btn-link">Ver Proyecto →</a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">✨</div>
-                <h3>Letras Metálicas</h3>
-                <p>Letras 3D en acero inoxidable, aluminio y bronce con acabados premium</p>
-                <a href="#" class="btn-link">Ver Proyecto →</a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">📋</div>
-                <h3>Vinilos Decorativos</h3>
-                <p>Vinilos corporativos, decorativos y publicitarios de alta durabilidad</p>
-                <a href="#" class="btn-link">Ver Proyecto →</a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🏪</div>
-                <h3>Señalética</h3>
-                <p>Señalización profesional para oficinas, tiendas y espacios públicos</p>
-                <a href="#" class="btn-link">Ver Proyecto →</a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🖼️</div>
-                <h3>Fachadas</h3>
-                <p>Revestimientos y fachadas corporativas con diseño personalizado</p>
-                <a href="#" class="btn-link">Ver Proyecto →</a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🎨</div>
-                <h3>Rotulación Artística</h3>
-                <p>Diseños artísticos y personalizados para marcas únicas</p>
-                <a href="#" class="btn-link">Ver Proyecto →</a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">📱</div>
-                <h3>Impresión Gran Formato</h3>
-                <p>Impresión digital de alta calidad para vallas, lona y banners</p>
-                <a href="#" class="btn-link">Ver Proyecto →</a>
-            </div>
+            <?php
+            $services = get_field('services_list');
+            if ($services && is_array($services)) {
+                foreach ($services as $service) {
+                    $image = $service['service_image'];
+                    $title = $service['service_title'];
+                    $description = $service['service_description'];
+                    ?>
+                    <div class="service-card">
+                        <?php if ($image) : ?>
+                            <div class="service-image">
+                                <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($title); ?>">
+                            </div>
+                        <?php endif; ?>
+                        <h3><?php echo esc_html($title); ?></h3>
+                        <p><?php echo esc_html($description); ?></p>
+                        <a href="#contacto" class="btn-link">Pide Presupuesto →</a>
+                    </div>
+                    <?php
+                }
+            } else {
+                // Fallback con servicios por defecto
+                ?>
+                <div class="service-card">
+                    <div style="background: #f0f0f0; height: 200px; display: flex; align-items: center; justify-content: center; color: #999;">
+                        Sin servicios. Añade en ACF "Servicios"
+                    </div>
+                    <h3>Servicio no configurado</h3>
+                    <p>Por favor, agrega los servicios desde la sección ACF en el admin.</p>
+                    <a href="#contacto" class="btn-link">Pide Presupuesto →</a>
+                </div>
+                <?php
+            }
+            ?>
         </div>
     </div>
 </section>

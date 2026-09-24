@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 1.3.0
+ * Version: 1.4.0
  *
  * Changelog:
+ * 1.4.0 - Add ACF repeater for services (image, title, description), change "Ver Proyecto" to "Pide Presupuesto" with contact form link
  * 1.3.0 - Make hero background image visible (reduce gradient opacity), style menu text bold and blue
  * 1.2.0 - Reduce header height, optimize hero section visibility, improve responsive design
  * 1.1.0 - Add ACF repeater for portfolio projects (editable from WP admin)
@@ -308,6 +309,53 @@ function crisbapro_register_acf_fields() {
                     'param' => 'options_page',
                     'operator' => '==',
                     'value' => 'acf-options-theme-settings',
+                ),
+            ),
+        ),
+    ));
+
+    // GRUPO: SERVICIOS
+    acf_add_local_field_group(array(
+        'key' => 'group_crisbapro_services',
+        'title' => 'Servicios',
+        'fields' => array(
+            array(
+                'key' => 'field_services_repeater',
+                'label' => 'Servicios',
+                'name' => 'services_list',
+                'type' => 'repeater',
+                'layout' => 'table',
+                'button_label' => 'Añadir Servicio',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_service_image',
+                        'label' => 'Imagen del Servicio',
+                        'name' => 'service_image',
+                        'type' => 'image',
+                        'return_format' => 'url',
+                        'preview_size' => 'thumbnail',
+                    ),
+                    array(
+                        'key' => 'field_service_title',
+                        'label' => 'Título del Servicio',
+                        'name' => 'service_title',
+                        'type' => 'text',
+                    ),
+                    array(
+                        'key' => 'field_service_description',
+                        'label' => 'Descripción del Servicio',
+                        'name' => 'service_description',
+                        'type' => 'textarea',
+                    ),
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_type',
+                    'operator' => '==',
+                    'value' => 'front_page',
                 ),
             ),
         ),

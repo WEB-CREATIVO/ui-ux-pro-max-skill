@@ -490,6 +490,26 @@ section {
   border-color: var(--color-primary);
 }
 
+.service-image {
+  width: 100%;
+  height: 200px;
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-surface);
+}
+
+.service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-base);
+}
+
+.service-card:hover .service-image img {
+  transform: scale(1.05);
+}
+
 .service-icon {
   font-size: 48px;
   margin-bottom: var(--spacing-lg);
