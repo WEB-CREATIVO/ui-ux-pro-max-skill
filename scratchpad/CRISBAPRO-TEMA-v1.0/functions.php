@@ -308,7 +308,12 @@ function crisbapro_get_hero_subtitle() {
 }
 
 function crisbapro_get_hero_image() {
-    return get_field('hero_image') ?: 'https://via.placeholder.com/1200x500';
+    $custom_image = get_field('hero_image');
+    if ($custom_image) {
+        return $custom_image;
+    }
+    // Default to bundled hero image
+    return get_template_directory_uri() . '/assets/images/hero-bg.jpg';
 }
 
 function crisbapro_get_phone() {
