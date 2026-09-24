@@ -8,7 +8,7 @@ get_header();
 ?>
 
 <!-- HERO SECTION -->
-<section class="hero" style="background-image: url('<?php echo esc_url(crisbapro_get_hero_image()); ?>');">
+<section id="inicio" class="hero" style="background-image: url('<?php echo esc_url(crisbapro_get_hero_image()); ?>');">
     <div class="container">
         <div class="hero-content">
             <h1 class="hero-title"><?php echo wp_kses_post(crisbapro_get_hero_title()); ?></h1>
@@ -26,7 +26,7 @@ get_header();
 </section>
 
 <!-- TRUST BLOCK -->
-<section class="trust-block">
+<section id="confianza" class="trust-block">
     <div class="container">
         <div class="trust-grid">
             <?php for ($i = 1; $i <= 3; $i++) : ?>
@@ -95,7 +95,7 @@ get_header();
 </section>
 
 <!-- CAROUSEL SECTION -->
-<section class="carousel-section">
+<section id="portfolio" class="carousel-section">
     <div class="container">
         <h2>Proyectos Destacados</h2>
         <div class="carousel-wrapper">
@@ -120,7 +120,7 @@ get_header();
 </section>
 
 <!-- PROCESO SECTION -->
-<section class="proceso">
+<section id="proceso" class="proceso">
     <div class="container">
         <h2>Nuestro Proceso</h2>
         <div class="process-steps">
@@ -154,7 +154,7 @@ get_header();
 </section>
 
 <!-- SECTORES SECTION -->
-<section class="sectores">
+<section id="sectores" class="sectores">
     <div class="container">
         <h2>Sectores Especializados</h2>
         <div class="sectors-grid">
@@ -187,7 +187,7 @@ get_header();
 </section>
 
 <!-- CONTACT FORM SECTION -->
-<section class="contact-section">
+<section id="contacto" class="contact-section">
     <div class="container">
         <h2>Solicita tu Presupuesto</h2>
         <form class="quote-form" id="presupuesto-form" method="POST" action="">

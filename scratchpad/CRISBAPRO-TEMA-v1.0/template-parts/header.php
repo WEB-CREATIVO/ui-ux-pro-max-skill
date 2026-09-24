@@ -27,13 +27,24 @@
 
             <nav class="nav" id="main-nav">
                 <?php
-                wp_nav_menu(array(
-                    'theme_location' => 'main-menu',
-                    'fallback_cb' => 'wp_page_menu',
-                    'menu_class' => 'nav-menu',
-                    'container' => false,
-                ));
+                $menu_items = array(
+                    array('label' => 'Inicio', 'url' => '#inicio'),
+                    array('label' => 'Servicios', 'url' => '#servicios'),
+                    array('label' => 'Portfolio', 'url' => '#portfolio'),
+                    array('label' => 'Proceso', 'url' => '#proceso'),
+                    array('label' => 'Sectores', 'url' => '#sectores'),
+                    array('label' => 'Contacto', 'url' => '#contacto'),
+                );
                 ?>
+                <ul class="nav-menu">
+                    <?php foreach ($menu_items as $item) : ?>
+                        <li>
+                            <a href="<?php echo esc_url($item['url']); ?>" class="nav-link">
+                                <?php echo esc_html($item['label']); ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
             </nav>
 
             <div class="header-contact">
