@@ -101,18 +101,33 @@ get_header();
         <div class="carousel-wrapper">
             <button class="carousel-control prev" aria-label="Anterior">❮</button>
             <div class="carousel">
-                <div class="carousel-slide">
-                    <img src="https://via.placeholder.com/600x400?text=Proyecto+1" alt="Proyecto 1">
-                    <h4>Rótulos Luminosos - Centro Comercial</h4>
-                </div>
-                <div class="carousel-slide">
-                    <img src="https://via.placeholder.com/600x400?text=Proyecto+2" alt="Proyecto 2">
-                    <h4>Letras Metálicas - Marca Luxury</h4>
-                </div>
-                <div class="carousel-slide">
-                    <img src="https://via.placeholder.com/600x400?text=Proyecto+3" alt="Proyecto 3">
-                    <h4>Fachada Corporativa - Oficinas</h4>
-                </div>
+                <?php
+                $projects = get_field('portfolio_projects');
+                if ($projects && is_array($projects)) {
+                    foreach ($projects as $project) {
+                        $image = $project['project_image'];
+                        $title = $project['project_title'];
+                        ?>
+                        <div class="carousel-slide">
+                            <?php if ($image) : ?>
+                                <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($title); ?>">
+                            <?php endif; ?>
+                            <h4><?php echo esc_html($title); ?></h4>
+                        </div>
+                        <?php
+                    }
+                } else {
+                    // Fallback con proyectos por defecto
+                    ?>
+                    <div class="carousel-slide">
+                        <div style="background: #f0f0f0; height: 400px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            Sin proyectos. Añade en ACF "Proyectos Destacados"
+                        </div>
+                        <h4>Proyecto no configurado</h4>
+                    </div>
+                    <?php
+                }
+                ?>
             </div>
             <button class="carousel-control next" aria-label="Siguiente">❯</button>
         </div>

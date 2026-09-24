@@ -2,7 +2,11 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 1.0.0
+ * Version: 1.1.0
+ *
+ * Changelog:
+ * 1.1.0 - Add ACF repeater for portfolio projects (editable from WP admin)
+ * 1.0.0 - Initial release
  */
 
 // ============================================================================
@@ -208,6 +212,47 @@ function crisbapro_register_acf_fields() {
                 'name' => 'trust_desc_3',
                 'type' => 'textarea',
                 'default_value' => 'Proyectos reales con resultados comprobables',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'page_type',
+                    'operator' => '==',
+                    'value' => 'front_page',
+                ),
+            ),
+        ),
+    ));
+
+    // GRUPO: PROYECTOS DESTACADOS
+    acf_add_local_field_group(array(
+        'key' => 'group_crisbapro_projects',
+        'title' => 'Proyectos Destacados',
+        'fields' => array(
+            array(
+                'key' => 'field_projects_repeater',
+                'label' => 'Proyectos',
+                'name' => 'portfolio_projects',
+                'type' => 'repeater',
+                'layout' => 'table',
+                'button_label' => 'Añadir Proyecto',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_project_image',
+                        'label' => 'Imagen',
+                        'name' => 'project_image',
+                        'type' => 'image',
+                        'return_format' => 'url',
+                        'preview_size' => 'thumbnail',
+                    ),
+                    array(
+                        'key' => 'field_project_title',
+                        'label' => 'Título del Proyecto',
+                        'name' => 'project_title',
+                        'type' => 'text',
+                    ),
+                ),
             ),
         ),
         'location' => array(
