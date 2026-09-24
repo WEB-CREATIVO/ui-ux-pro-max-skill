@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 1.2.0
+ * Version: 1.3.0
  *
  * Changelog:
+ * 1.3.0 - Make hero background image visible (reduce gradient opacity), style menu text bold and blue
  * 1.2.0 - Reduce header height, optimize hero section visibility, improve responsive design
  * 1.1.0 - Add ACF repeater for portfolio projects (editable from WP admin)
  * 1.0.0 - Initial release
