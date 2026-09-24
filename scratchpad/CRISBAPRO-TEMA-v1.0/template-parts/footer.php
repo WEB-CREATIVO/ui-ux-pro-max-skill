@@ -71,3 +71,6 @@
     <?php wp_footer(); ?>
 </body>
 </html>
+<?php
+// This closing tag ensures proper PHP syntax
+?>
