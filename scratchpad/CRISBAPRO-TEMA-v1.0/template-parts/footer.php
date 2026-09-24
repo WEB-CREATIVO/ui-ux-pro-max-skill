@@ -54,7 +54,13 @@
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; <?php echo date('Y'); ?> <?php echo esc_html(bloginfo('name')); ?>. Todos los derechos reservados.</p>
+                <div class="footer-legal">
+                    <p>&copy; <?php echo date('Y'); ?> <?php echo esc_html(bloginfo('name')); ?>. Todos los derechos reservados.</p>
+                    <ul class="footer-legal-links">
+                        <li><a href="<?php echo esc_url(home_url('/politica-de-privacidad')); ?>">Política de Privacidad</a></li>
+                        <li><a href="<?php echo esc_url(home_url('/politica-de-cookies')); ?>">Política de Cookies</a></li>
+                    </ul>
+                </div>
                 <?php
                 wp_nav_menu(array(
                     'theme_location' => 'footer-menu',
