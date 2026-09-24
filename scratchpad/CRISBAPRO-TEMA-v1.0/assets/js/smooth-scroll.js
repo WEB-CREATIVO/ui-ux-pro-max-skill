@@ -17,26 +17,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
       e.preventDefault();
 
-      // Calculate scroll position accounting for fixed header
-      const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
-      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+      // Get header height for offset calculation
+      const header = document.querySelector('.header');
+      const headerHeight = header ? header.offsetHeight : 0;
 
-      // Smooth scroll
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
+      // Calculate target position with extra padding
+      const targetRect = target.getBoundingClientRect();
+      const targetPosition = targetRect.top + window.pageYOffset - headerHeight - 20;
+
+      // Smooth scroll with fallback
+      try {
+        window.scrollTo({
+          top: Math.max(0, targetPosition),
+          behavior: 'smooth'
+        });
+      } catch (err) {
+        // Fallback for browsers that don't support smooth scrolling
+        window.scrollTo(0, Math.max(0, targetPosition));
+      }
 
       // Update URL without page reload
       window.history.pushState(null, null, href);
     });
   });
-
-  // Add scroll indicator for arrow buttons
-  const arrowButtons = document.querySelectorAll('[href^="#"]');
-  if (arrowButtons.length > 0) {
-    // Already handled above with smooth scroll to element
-  }
 });
 
 /**

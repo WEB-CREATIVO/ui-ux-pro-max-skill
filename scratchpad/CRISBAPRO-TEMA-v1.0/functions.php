@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 1.4.0
+ * Version: 1.5.0
  *
  * Changelog:
+ * 1.5.0 - Fix anchor link smooth scroll (add scroll-margin-top to sections, improve JS calculation)
  * 1.4.0 - Add ACF repeater for services (image, title, description), change "Ver Proyecto" to "Pide Presupuesto" with contact form link
  * 1.3.0 - Make hero background image visible (reduce gradient opacity), style menu text bold and blue
  * 1.2.0 - Reduce header height, optimize hero section visibility, improve responsive design

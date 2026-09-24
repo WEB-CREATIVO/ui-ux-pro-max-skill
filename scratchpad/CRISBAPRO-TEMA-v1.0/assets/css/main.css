@@ -193,6 +193,7 @@ em {
 
 section {
   padding: var(--spacing-3xl) 0;
+  scroll-margin-top: 80px;
 }
 
 /* ========================================
