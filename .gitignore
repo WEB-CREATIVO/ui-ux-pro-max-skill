@@ -37,6 +37,9 @@ build/
 .output/
 out/
 
+# Generated archives
+*.zip
+
 # Cache
 .cache/
 .parcel-cache/
