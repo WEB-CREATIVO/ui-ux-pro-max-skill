@@ -2,9 +2,12 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 1.9.1
+ * Version: 1.9.2
  *
  * Changelog:
+ * 1.9.2 - Fix mobile hero white gap (remove redundant margin-top under sticky header)
+ * 1.9.2 - Fix circular var reference breaking H1/H2 size on desktop (responsive.css)
+ * 1.9.2 - Fix mobile logo clipping/centering (cap .custom-logo max-height under 48px header)
  * 1.9.1 - Fix mobile hero clipping long H1 (height:auto + overflow:visible)
  * 1.9.0 - Add custom logo support via WordPress Customizer (Appearance → Customize → Site Identity)
  * 1.8.0 - Simplify CTA: Use direct anchor link href="#contacto" for formulario de contacto

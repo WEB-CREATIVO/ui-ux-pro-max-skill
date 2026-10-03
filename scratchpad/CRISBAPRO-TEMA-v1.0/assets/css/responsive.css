@@ -66,11 +66,16 @@
 
   /* Hero Mobile */
   .hero {
-    margin-top: var(--header-height-mobile);
+    margin-top: 0;
     height: auto;
     min-height: 300px;
     padding: var(--spacing-2xl) 0;
     overflow: visible;
+  }
+
+  .custom-logo {
+    height: auto;
+    max-height: 32px;
   }
 
   .hero-subtitle {
@@ -258,8 +263,8 @@
 
 @media (min-width: 1024px) {
   :root {
-    --h1-size: var(--h1-size);
-    --h2-size: var(--h2-size);
+    --h1-size: 48px;
+    --h2-size: 36px;
   }
 
   .container {
