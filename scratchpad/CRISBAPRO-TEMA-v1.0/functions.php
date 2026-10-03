@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 1.9.3
+ * Version: 1.9.4
  *
  * Changelog:
+ * 1.9.4 - Fix Services repeater: revert layout 'block' → 'table' (ACF Free 6.8.10 incompatibility)
  * 1.9.3 - Fix Services repeater rendering: change layout 'table' → 'block' (unblock service population)
  * 1.9.2 - Fix mobile hero white gap (remove redundant margin-top under sticky header)
  * 1.9.2 - Fix circular var reference breaking H1/H2 size on desktop (responsive.css)
@@ -334,7 +335,7 @@ function crisbapro_register_acf_fields() {
                 'label' => 'Servicios',
                 'name' => 'services_list',
                 'type' => 'repeater',
-                'layout' => 'block',
+                'layout' => 'table',
                 'button_label' => 'Añadir Servicio',
                 'sub_fields' => array(
                     array(
