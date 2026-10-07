@@ -110,7 +110,11 @@ function crisbapro_front_field($name, $default = '') {
         return $default;
     }
     $front_id = crisbapro_front_page_id();
-    $value = $front_id ? get_field($name, $front_id) : get_field($name);
+    if ($front_id > 0) {
+        $value = get_field($name, $front_id);
+    } else {
+        $value = get_field($name);
+    }
 
     if ($value === null || $value === false || $value === '') {
         return $default;

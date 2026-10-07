@@ -16,7 +16,7 @@ $cp_defaults = crisbapro_defaults();
             <h1 class="hero-title"><?php echo wp_kses_post(crisbapro_get_hero_title()); ?></h1>
             <p class="hero-subtitle"><?php echo wp_kses_post(crisbapro_get_hero_subtitle()); ?></p>
             <div class="hero-cta">
-                <a href="#servicios" class="btn btn-primary">
+                <a href="#contacto" class="btn btn-primary">
                     <?php echo esc_html(get_field('hero_cta_primary') ?: $cp_defaults['hero_cta_primary']); ?>
                 </a>
                 <a href="#servicios" class="btn btn-secondary">
