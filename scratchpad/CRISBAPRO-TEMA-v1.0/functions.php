@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 1.9.4
+ * Version: 1.9.5
  *
  * Changelog:
+ * 1.9.5 - CRITICAL FIX: Remove incompatible repeater fields (group_crisbapro_projects, group_crisbapro_services). ACF Free does not support repeater type. Servicios now use CPT. Proyectos moved to CPT or gallery field.
  * 1.9.4 - Fix Services repeater: revert layout 'block' → 'table' (ACF Free 6.8.10 incompatibility)
  * 1.9.3 - Fix Services repeater rendering: change layout 'table' → 'block' (unblock service population)
  * 1.9.2 - Fix mobile hero white gap (remove redundant margin-top under sticky header)
@@ -239,47 +240,6 @@ function crisbapro_register_acf_fields() {
         ),
     ));
 
-    // GRUPO: PROYECTOS DESTACADOS
-    acf_add_local_field_group(array(
-        'key' => 'group_crisbapro_projects',
-        'title' => 'Proyectos Destacados',
-        'fields' => array(
-            array(
-                'key' => 'field_projects_repeater',
-                'label' => 'Proyectos',
-                'name' => 'portfolio_projects',
-                'type' => 'repeater',
-                'layout' => 'table',
-                'button_label' => 'Añadir Proyecto',
-                'sub_fields' => array(
-                    array(
-                        'key' => 'field_project_image',
-                        'label' => 'Imagen',
-                        'name' => 'project_image',
-                        'type' => 'image',
-                        'return_format' => 'url',
-                        'preview_size' => 'thumbnail',
-                    ),
-                    array(
-                        'key' => 'field_project_title',
-                        'label' => 'Título del Proyecto',
-                        'name' => 'project_title',
-                        'type' => 'text',
-                    ),
-                ),
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'page_type',
-                    'operator' => '==',
-                    'value' => 'front_page',
-                ),
-            ),
-        ),
-    ));
-
     // GRUPO: INFORMACIÓN DE CONTACTO
     acf_add_local_field_group(array(
         'key' => 'group_crisbapro_contact',
@@ -320,53 +280,6 @@ function crisbapro_register_acf_fields() {
                     'param' => 'options_page',
                     'operator' => '==',
                     'value' => 'acf-options-theme-settings',
-                ),
-            ),
-        ),
-    ));
-
-    // GRUPO: SERVICIOS
-    acf_add_local_field_group(array(
-        'key' => 'group_crisbapro_services',
-        'title' => 'Servicios',
-        'fields' => array(
-            array(
-                'key' => 'field_services_repeater',
-                'label' => 'Servicios',
-                'name' => 'services_list',
-                'type' => 'repeater',
-                'layout' => 'table',
-                'button_label' => 'Añadir Servicio',
-                'sub_fields' => array(
-                    array(
-                        'key' => 'field_service_image',
-                        'label' => 'Imagen del Servicio',
-                        'name' => 'service_image',
-                        'type' => 'image',
-                        'return_format' => 'url',
-                        'preview_size' => 'thumbnail',
-                    ),
-                    array(
-                        'key' => 'field_service_title',
-                        'label' => 'Título del Servicio',
-                        'name' => 'service_title',
-                        'type' => 'text',
-                    ),
-                    array(
-                        'key' => 'field_service_description',
-                        'label' => 'Descripción del Servicio',
-                        'name' => 'service_description',
-                        'type' => 'textarea',
-                    ),
-                ),
-            ),
-        ),
-        'location' => array(
-            array(
-                array(
-                    'param' => 'page_type',
-                    'operator' => '==',
-                    'value' => 'front_page',
                 ),
             ),
         ),
