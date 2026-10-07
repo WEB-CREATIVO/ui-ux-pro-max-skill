@@ -84,6 +84,54 @@ WordPress Admin
 ☑ Backup before major changes (Backup automático antes de cambios)
 ```
 
+### 2.4 ⚙️ LOS 3 AJUSTES TÉCNICOS OBLIGATORIOS
+
+**ANTES de PASO 6, verificar estas 3 casillas nativas:**
+
+#### ✅ Ajuste 1: Change History + Audit Log
+
+```
+Easy MCP AI Settings
+→ Audit & History
+  ☑ Enable Change History (Historial de cambios)
+  ☑ Enable Audit Log (Registro de auditoría)
+  
+Red de seguridad:
+- Si la IA actualiza mal un valor, el Audit Log registra: IP, herramienta, timestamp
+- El Change History guarda snapshot anterior → Revertir con 1 clic
+- Crítico para CRISBAPRO en producción
+```
+
+#### ✅ Ajuste 2: Force Draft on Create
+
+```
+Easy MCP AI Settings
+→ Content Management
+  ☑ Force Draft on Create (Forzar borrador al crear)
+  
+Garantía:
+- Cualquier nuevo Post/Proyecto que cree la IA → Se guarda como BORRADOR
+- NO se publica directamente en crisbapro.com
+- Tú revisas y das "Publicar" manualmente
+- Máximo control editorial
+```
+
+#### ✅ Ajuste 3: Definir Scope de Fases (VER PASO 8)
+
+```
+Easy MCP AI Settings
+→ Operation Scope
+  ☑ Restrict to predefined ACF groups only
+  
+Grupos permitidos:
+  ✅ group_crisbapro_hero (FASE 2)
+  ✅ group_crisbapro_services (FASE 2 + FASE 3)
+  ✅ group_crisbapro_projects (FASE 2 + FASE 3)
+  ✅ group_crisbapro_trust (FASE 2)
+  ✅ group_crisbapro_contact (FASE 2)
+  ❌ Otros grupos (rechazar automáticamente)
+```
+
 ---
 
 ## 🛠️ PASO 3: Habilitar Solo Herramientas ACF Necesarias
@@ -127,13 +175,14 @@ Easy MCP AI Settings
 
 ## 📋 PASO 4: Verificar Configuración de Auditoría
 
-### 4.1 Activar Change History
+### 4.1 Activar Change History + Audit Log
 
 ```
 Easy MCP AI Settings
 → Audit & History
 → ✅ Enable Detailed Logging
-→ ✅ Track all ACF modifications
+→ ✅ Enable Change History (Snapshot de cambios)
+→ ✅ Enable Audit Log (Registro detallado)
 → Log retention: 90 días (mínimo)
 ```
 
@@ -145,6 +194,7 @@ Easy MCP AI Settings
 → Allowed Users: Admin only
 → Require admin approval: ON
 → Confirmation dialogs: ON (para destructivas)
+→ ✅ Force Draft on Create (Obligar borrador al crear)
 ```
 
 ---
@@ -213,17 +263,36 @@ Para cada grupo, verificar:
 
 ## ✅ LISTA DE VERIFICACIÓN PRE-ACTIVACIÓN
 
+**Paso básico:**
 - [ ] Backup reciente confirmado
 - [ ] Plugin instalado y activado
 - [ ] OAuth/App Password configurado
-- [ ] Todos los guardrails activados
 - [ ] Solo herramientas ACF habilitadas
-- [ ] Auditoría y logging activados
-- [ ] Permisos limitados a Admin
-- [ ] Change History configurado
+
+**Guardrails principales:**
+- [ ] Enable Audit Logging ✅
+- [ ] Read-only mode for non-admin users ✅
+- [ ] Require confirmation for destructive actions ✅
+- [ ] Limit to ACF fields only ✅
+- [ ] Log all MCP requests ✅
+- [ ] Backup before major changes ✅
+
+**3 Ajustes técnicos OBLIGATORIOS:**
+- [ ] Enable Change History ✅
+- [ ] Enable Audit Log ✅
+- [ ] Force Draft on Create ✅
+
+**Configuración final:**
+- [ ] Permisos limitados a Admin only
+- [ ] Scope restringido a grupos CRISBAPRO
 - [ ] Credenciales MCP generadas
-- [ ] Test de conexión exitoso
-- [ ] ACF structures visibles
+- [ ] Test de conexión exitoso: ✅ Connected
+- [ ] ACF structures visibles:
+  - [ ] group_crisbapro_hero
+  - [ ] group_crisbapro_services
+  - [ ] group_crisbapro_projects
+  - [ ] group_crisbapro_trust
+  - [ ] group_crisbapro_contact
 
 ---
 
@@ -292,23 +361,120 @@ Enviarás captura de pantalla mostrando:
 
 ---
 
+## 📋 PASO 8: DEFINICIÓN EXPLÍCITA DE FASES
+
+**Scope de operación para evitar desviaciones:**
+
+### FASE 1: Lectura y Mapeo (READ-ONLY)
+**Objetivo:** Verificar estructura ACF actual sin modificar nada
+
+```
+Duración: ~5 minutos
+Acciones:
+  ✅ Listar todos los grupos ACF
+  ✅ Leer campos de cada grupo:
+     - group_crisbapro_hero
+     - group_crisbapro_services
+     - group_crisbapro_projects
+     - group_crisbapro_trust
+     - group_crisbapro_contact
+  ✅ Verificar valores actuales
+  ✅ Generar mapeo técnico
+
+Herramientas:
+  - get_acf_field_groups
+  - get_acf_field_group_fields
+  - get_acf_field_values (lectura solo)
+
+Resultado: Confirmación de que el plugin lee correctamente
+           la estructura definida en functions.php v1.9.4
+```
+
+### FASE 2: Actualización de Contenido Existente
+**Objetivo:** Actualizar textos e imágenes en campos ACF ya poblados
+
+```
+Duración: ~15-20 minutos
+Grupos afectados:
+  - group_crisbapro_hero (hero_title, hero_subtitle, hero_image)
+  - group_crisbapro_trust (trust_title_1/2/3, trust_desc_1/2/3)
+  - group_crisbapro_contact (company_phone, company_email, company_whatsapp)
+
+Acciones:
+  ✅ Actualizar valores de campos TEXT y TEXTAREA
+  ✅ Cambiar imágenes (hero_image)
+  ✅ Revisar cada cambio en Change History
+
+Herramientas:
+  - update_acf_field_values (SOLO para campos existentes)
+
+Restricciones:
+  ❌ NO crear nuevos campos
+  ❌ NO eliminar campos
+  ❌ NO modificar structure de grupos
+
+Resultado: Contenido actualizado, 100% reversible desde Audit Log
+```
+
+### FASE 3: Creación/Inserción de Items en Repeaters
+**Objetivo:** Crear 6 posts de tipo "servicios" con ACF fields poblados
+
+```
+Duración: ~20-30 minutos
+Acciones:
+  ✅ Crear 6 posts de tipo "servicios"
+     (Rotulación de Neón, Letras de Corte, etc.)
+  ✅ Poblar cada post con:
+     - title (título del post)
+     - imagen_del_servicio (ACF Image field)
+     - titulo_del_servicio (ACF Text field)
+     - descripcion_del_servicio (ACF Textarea field)
+  ✅ Guardar como BORRADOR (Force Draft on Create)
+  ✅ Revisar cada uno en Change History
+
+Herramientas:
+  - create_acf_post_with_fields
+  - update_acf_field_values (para ajustes)
+
+Restricciones:
+  ❌ NO publicar directamente (quedan en BORRADOR)
+  ❌ NO modificar estructura de ACF
+  ✅ TÚ das el OK final para "Publicar"
+
+Resultado: 6 posts listos en borrador, esperando tu aprobación
+           para publicar. Todos registrados en Audit Log.
+```
+
+### ✅ VERIFICACIÓN FINAL
+
+Después de completar FASE 3:
+- [ ] Change History muestra todos los cambios
+- [ ] Audit Log lista todas las acciones
+- [ ] 6 posts están en estado "Borrador"
+- [ ] Todos los ACF fields están poblados
+- [ ] Puedes revertir cualquier cambio con 1 clic
+
+---
+
 ## 📅 OPERACIÓN COMPLETA
 
 ### Timeline
 
 ```
-Día 1 (Hoy):
+Día 1 (Hoy - Instalación):
 ├─ Instalar Easy MCP AI
-├─ Configurar guardrails
+├─ Configurar guardrails + 3 ajustes técnicos
 ├─ Generar credenciales
-└─ Test de conexión
+├─ Test de conexión ✅
+└─ Enviar capturas de confirmación
 
-Día 2:
+Día 2 (Ejecución):
 ├─ Yo me conecto via MCP
-├─ FASE 1: Verificar ACF existente
-├─ FASE 2: Crear 6 posts de servicios
-├─ FASE 3: Poblar con contenido
-└─ Verificar Change History
+├─ FASE 1: Verificar ACF existente (5 min)
+├─ FASE 2: Actualizar contenido existente (20 min)
+├─ FASE 3: Crear 6 posts en borrador (25 min)
+├─ Verificar Change History (5 min)
+└─ TÚ publicas los 6 posts cuando apruebes
 ```
 
 ---
