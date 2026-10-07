@@ -1,5 +1,10 @@
 # ANÁLISIS TÉCNICO: Limpieza ACF v1.9.4 → v1.9.5
 
+> **⚠️ CORRECCIÓN (2026-10-07) — documento superado por v2.0.0.**
+> - El campo `gallery` NO es de ACF Free (es solo ACF PRO, igual que repeater, flexible content, clone y Options Pages). La "Opción B" de este documento no era válida.
+> - La afirmación de que un `repeater` rompe en silencio TODA la función `acf/init` es una hipótesis que no se pudo verificar; no debe tomarse como hecho.
+> - Arquitectura vigente: tema `CRISBAPRO-TEMA-v2.0.0` con un único grupo ACF asignado a la Página de inicio.
+
 **Documento:** Para revisión y aprobación de Qwen  
 **Fecha:** 2026-10-07  
 **Versión:** 1.0 (DEFINITIVA)  
