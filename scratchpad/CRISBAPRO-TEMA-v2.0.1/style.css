@@ -1,0 +1,25 @@
+/*
+Theme Name: CRISBAPRO GRAPHIC THEME
+Theme URI: https://crisbapro.com
+Author: WebMasterPro
+Author URI: https://webmasterpro.es
+Description: Professional signage company website theme for Madrid. Fully responsive, ACF-powered, SEO-optimized with Rank Math integration.
+Version: 2.0.1
+Requires at least: 5.9
+Requires PHP: 7.4
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: crisbapro
+Domain Path: /languages
+Tags: landing-page, business, responsive, acf, seo
+*/
+
+/*
+Changelog:
+2.0.0 - Refactorización completa: migración a un único grupo ACF asignado a la Página de inicio (compatible con ACF Free). Eliminación de campos repetibles, CPTs y Options Page. Agregado panel de estilos (tipografía y colores).
+2.0.1 - Lightbox (pop-up) para ampliar las imágenes de servicios: se abre al hacer clic y se cierra con clic fuera, botón × o tecla ESC.
+
+Nota: este archivo solo contiene la cabecera del tema. Los estilos y las variables CSS
+(--color-primary, --color-secondary, --font-family, --hero-title-color, --hero-title-size...)
+están en assets/css/main.css; los valores elegidos en el panel ACF se inyectan desde functions.php.
+*/
