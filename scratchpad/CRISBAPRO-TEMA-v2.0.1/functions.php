@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 2.0.2
+ * Version: 2.0.3
  *
  * Changelog:
+ * 2.0.3 - Formulario de contacto: se añade cristian@crisbapro.com como cuarto destinatario. El script de empaquetado verifica que todos los campos del formulario los procesa el servidor.
  * 2.0.2 - Formulario de contacto: envío real por email a los 3 destinatarios (antes no se enviaba nada). Funciones reutilizables para futuros formularios: crisbapro_form_recipients() y crisbapro_send_form_email().
  * 2.0.1 - Lightbox (pop-up) para ampliar las imágenes de servicios: clic para abrir; clic fuera, botón × o tecla ESC para cerrar.
  * 2.0.0 - Refactorización completa: UN SOLO grupo ACF asignado a la Página de inicio (compatible con ACF Free). Servicios (6) y proyectos (6) como campos fijos. Panel de estilos (tipografía y colores). Sin CPTs, sin Options Page y sin campos repetibles.
@@ -27,7 +28,7 @@
  * 1.0.0 - Initial release
  */
 
-define('CRISBAPRO_VERSION', '2.0.2');
+define('CRISBAPRO_VERSION', '2.0.3');
 
 // ============================================================================
 // SETUP BÁSICO DEL TEMA
@@ -510,6 +511,7 @@ function crisbapro_form_recipients() {
         'webcreativo2@gmail.com',
         'info@crisbapro.com',
         'crisbavisual@gmail.com',
+        'cristian@crisbapro.com',
     );
     return apply_filters('crisbapro_form_recipients', $recipients);
 }

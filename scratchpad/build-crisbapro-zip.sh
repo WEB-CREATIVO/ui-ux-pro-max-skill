@@ -46,6 +46,14 @@ echo "screenshot.png sin cambios"
 # 4. Los campos ACF existentes no se renombran ni se eliminan (si no, se pierde el contenido de la Home)
 php "$HERE/crisbapro-check-fields.php" "$SRC"
 
+# 4b. Todo campo del formulario de contacto debe procesarlo el servidor (si no, el dato se pierde sin avisar)
+form_fields=$(sed -n '/id="presupuesto-form"/,/<\/form>/p' "$SRC/index.php" | grep -oE 'name="[^"]+"' | sed -E 's/name="([^"]+)"/\1/' | grep -v -E '^(crisbapro_form|web)$' | sort -u)
+[ -n "$form_fields" ] || fail "no se encontraron campos en el formulario #presupuesto-form"
+for f in $form_fields; do
+  grep -q "\$field('$f')" "$SRC/functions.php" || fail "el campo '$f' del formulario no lo recoge crisbapro_handle_contact_form()"
+done
+echo "Formulario OK: todos los campos ($(echo $form_fields | tr '\n' ' ')) los recoge el servidor"
+
 # 5. Construir el ZIP: carpeta raíz fija, sin carpetas vacías
 OUT="$ROOT/CRISBAPRO-TEMA-v${v_style}.zip"
 rm -f "$OUT"
