@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 2.0.6
+ * Version: 2.0.7
  *
  * Changelog:
+ * 2.0.7 - Los archivos CSS/JS del tema conservan ?ver= (antes se quitaba y las cachés servían el JS antiguo tras actualizar). El aviso de error del formulario muestra a los usuarios logueados el código HTTP y el texto real de la respuesta, y ya no se solapa con la barra de administración.
  * 2.0.6 - El remitente del formulario pasa a ser hola@dominio, la cuenta configurada en el plugin SMTP (Easy WP SMTP).
  * 2.0.5 - Diagnóstico del formulario: el aviso de error muestra el motivo real del servidor (los administradores ven además el detalle técnico de wp_mail), el fallo se registra en el log, el visitante recibe teléfono y correo alternativos, y el remitente pasa a ser info@dominio.
  * 2.0.4 - Formulario de contacto conforme a protección de datos (RGPD/LOPDGDD): primera capa informativa editable, casilla obligatoria de aceptación de la Política de Privacidad (/politica-de-privacidad) validada también en el servidor, y constancia del consentimiento en el correo.
@@ -31,7 +32,7 @@
  * 1.0.0 - Initial release
  */
 
-define('CRISBAPRO_VERSION', '2.0.6');
+define('CRISBAPRO_VERSION', '2.0.7');
 
 // ============================================================================
 // SETUP BÁSICO DEL TEMA
@@ -719,6 +720,11 @@ add_filter('style_loader_src', 'crisbapro_remove_version', 10, 2);
 add_filter('script_loader_src', 'crisbapro_remove_version', 10, 2);
 
 function crisbapro_remove_version($src, $handle) {
+    // Los archivos del propio tema (handles crisbapro-*) conservan ?ver= para que cada versión
+    // tenga URL distinta; si no, navegador y cachés (WP Rocket) siguen sirviendo el JS/CSS antiguo.
+    if (strpos((string) $handle, 'crisbapro-') === 0) {
+        return $src;
+    }
     if (strpos($src, 'ver=')) {
         $src = remove_query_arg('ver', $src);
     }

@@ -74,21 +74,34 @@ function handleFormSubmit(form) {
       showNotification('¡Presupuesto solicitado exitosamente! Nos pondremos en contacto pronto.', 'success');
       form.reset();
     } else {
-      // Lee el motivo que devuelve el servidor (WordPress responde JSON con data.message / data.debug)
-      return response.json().catch(() => null).then(body => {
+      // Lee la respuesta del servidor: JSON de WordPress (data.message / data.debug) o, si no lo es, el texto en bruto
+      return response.text().then(text => {
+        let body = null;
+        try { body = JSON.parse(text); } catch (e) { body = null; }
         const data = body && body.data ? body.data : {};
         const err = new Error('Error in submission');
         err.userMessage = data.message || '';
         err.debug = data.debug || '';
+        err.httpStatus = response.status;
+        err.rawText = body ? '' : text.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 300);
         throw err;
       });
     }
   })
   .catch(error => {
     const base = error.userMessage || 'Hubo un error al enviar el formulario. Por favor intenta de nuevo.';
-    if (error.debug) {
-      // Solo los administradores reciben el detalle técnico
-      showNotification(base + ' [Detalle técnico: ' + error.debug + ']', 'error', 20000);
+    // Detalle técnico: el servidor lo manda solo a administradores; además, quien tiene la barra de
+    // administración (usuario logueado) ve el código HTTP / texto real si la respuesta no era JSON.
+    let detail = error.debug || '';
+    if (!detail && document.body.classList.contains('admin-bar')) {
+      if (error.httpStatus) {
+        detail = 'HTTP ' + error.httpStatus + (error.rawText ? ' - ' + error.rawText : '');
+      } else {
+        detail = error.message || 'sin conexión con el servidor';
+      }
+    }
+    if (detail) {
+      showNotification(base + ' [Detalle técnico: ' + detail + ']', 'error', 20000);
     } else {
       showNotification(base, 'error', 8000);
     }
@@ -106,9 +119,10 @@ function showNotification(message, type = 'info', duration = 5000) {
   const notification = document.createElement('div');
   notification.className = `notification notification-${type}`;
   notification.textContent = message;
+  const topOffset = document.body.classList.contains('admin-bar') ? '60px' : '20px';
   notification.style.cssText = `
     position: fixed;
-    top: 20px;
+    top: ${topOffset};
     right: 20px;
     padding: 16px 24px;
     background-color: ${type === 'success' ? '#06A77D' : '#E63946'};
