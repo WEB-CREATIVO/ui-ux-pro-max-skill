@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 2.0.5
+ * Version: 2.0.6
  *
  * Changelog:
+ * 2.0.6 - El remitente del formulario pasa a ser hola@dominio, la cuenta configurada en el plugin SMTP (Easy WP SMTP).
  * 2.0.5 - Diagnóstico del formulario: el aviso de error muestra el motivo real del servidor (los administradores ven además el detalle técnico de wp_mail), el fallo se registra en el log, el visitante recibe teléfono y correo alternativos, y el remitente pasa a ser info@dominio.
  * 2.0.4 - Formulario de contacto conforme a protección de datos (RGPD/LOPDGDD): primera capa informativa editable, casilla obligatoria de aceptación de la Política de Privacidad (/politica-de-privacidad) validada también en el servidor, y constancia del consentimiento en el correo.
  * 2.0.3 - Formulario de contacto: se añade cristian@crisbapro.com como cuarto destinatario. El script de empaquetado verifica que todos los campos del formulario los procesa el servidor.
@@ -30,7 +31,7 @@
  * 1.0.0 - Initial release
  */
 
-define('CRISBAPRO_VERSION', '2.0.5');
+define('CRISBAPRO_VERSION', '2.0.6');
 
 // ============================================================================
 // SETUP BÁSICO DEL TEMA
@@ -566,10 +567,11 @@ function crisbapro_mail_last_error($set = null) {
     return $error;
 }
 
-// Remitente del correo: un buzón del propio dominio del sitio (info@dominio). Filtrable.
+// Remitente del correo: la cuenta que usa el plugin SMTP (hola@dominio). Debe coincidir con esa cuenta,
+// porque los servidores SMTP suelen rechazar un remitente distinto. Filtrable.
 function crisbapro_form_from_address() {
     $host = preg_replace('/^www\./', '', (string) wp_parse_url(home_url(), PHP_URL_HOST));
-    $from = $host !== '' ? 'info@' . $host : '';
+    $from = $host !== '' ? 'hola@' . $host : '';
     return apply_filters('crisbapro_form_from_address', $from);
 }
 
