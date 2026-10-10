@@ -220,6 +220,16 @@ $cp_is_editor = current_user_can('edit_pages');
                 <label for="presupuesto">Descripción del Proyecto *</label>
                 <textarea id="presupuesto" name="presupuesto" rows="5" required></textarea>
             </div>
+            <div class="form-privacy">
+                <div class="form-privacy-info" role="group" aria-label="Información básica sobre protección de datos">
+                    <p class="form-privacy-title">Información básica sobre protección de datos</p>
+                    <?php echo crisbapro_privacy_first_layer_html(); ?>
+                </div>
+                <label class="form-privacy-check" for="privacidad">
+                    <input type="checkbox" id="privacidad" name="privacidad" value="1" required>
+                    <span>He leído y acepto la <a href="<?php echo esc_url(home_url('/politica-de-privacidad')); ?>" target="_blank" rel="noopener">Política de Privacidad</a> *</span>
+                </label>
+            </div>
             <button type="submit" class="btn btn-lg btn-primary">Solicitar Presupuesto</button>
         </form>
     </div>

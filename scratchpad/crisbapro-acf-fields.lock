@@ -200,6 +200,10 @@
         "field_cp_hero_title_size": {
             "name": "hero_title_size",
             "type": "number"
+        },
+        "field_cp_privacy_first_layer": {
+            "name": "privacy_first_layer",
+            "type": "textarea"
         }
     }
 }

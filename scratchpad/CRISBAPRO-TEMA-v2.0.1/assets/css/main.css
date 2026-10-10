@@ -1046,3 +1046,63 @@ html.lightbox-open {
     transition: none;
   }
 }
+
+/* ========================================
+   FORMULARIO - Protección de datos (primera capa + aceptación)
+   ======================================== */
+
+.form-privacy-info {
+  padding: var(--spacing-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+}
+
+.form-privacy-info p {
+  margin: 0 0 var(--spacing-xs);
+}
+
+.form-privacy-info p:last-child {
+  margin-bottom: 0;
+}
+
+.form-privacy-info strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.form-privacy-info .form-privacy-title {
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.form-privacy-check {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  min-height: 44px;
+  margin-top: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.form-privacy-check input[type="checkbox"] {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.form-privacy-check a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+}

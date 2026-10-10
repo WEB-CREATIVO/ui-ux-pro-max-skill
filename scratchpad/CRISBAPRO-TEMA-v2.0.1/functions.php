@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 2.0.3
+ * Version: 2.0.4
  *
  * Changelog:
+ * 2.0.4 - Formulario de contacto conforme a protección de datos (RGPD/LOPDGDD): primera capa informativa editable, casilla obligatoria de aceptación de la Política de Privacidad (/politica-de-privacidad) validada también en el servidor, y constancia del consentimiento en el correo.
  * 2.0.3 - Formulario de contacto: se añade cristian@crisbapro.com como cuarto destinatario. El script de empaquetado verifica que todos los campos del formulario los procesa el servidor.
  * 2.0.2 - Formulario de contacto: envío real por email a los 3 destinatarios (antes no se enviaba nada). Funciones reutilizables para futuros formularios: crisbapro_form_recipients() y crisbapro_send_form_email().
  * 2.0.1 - Lightbox (pop-up) para ampliar las imágenes de servicios: clic para abrir; clic fuera, botón × o tecla ESC para cerrar.
@@ -28,7 +29,7 @@
  * 1.0.0 - Initial release
  */
 
-define('CRISBAPRO_VERSION', '2.0.3');
+define('CRISBAPRO_VERSION', '2.0.4');
 
 // ============================================================================
 // SETUP BÁSICO DEL TEMA
@@ -96,6 +97,7 @@ function crisbapro_defaults() {
         'company_email'    => 'cristian@crisbapro.com',
         'company_whatsapp' => '+34 608 78 20 15',
         'company_location' => 'Madrid, España',
+        'privacy_first_layer' => "Responsable: CRISBAPRO.\nFinalidad: atender tu solicitud de presupuesto y ponernos en contacto contigo.\nLegitimación: tu consentimiento, al marcar la casilla y enviar el formulario.\nDestinatarios: no se cederán datos a terceros salvo obligación legal. Los proveedores de alojamiento web y correo electrónico acceden a los datos como encargados del tratamiento.\nDerechos: puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a info@crisbapro.com.\nInformación adicional: consulta la Política de Privacidad.",
     );
 }
 
@@ -388,6 +390,11 @@ function crisbapro_register_acf_fields() {
     $fields[] = crisbapro_acf_field('email', 'company_email', 'Email', array('default_value' => $d['company_email']));
     $fields[] = crisbapro_acf_field('text', 'company_whatsapp', 'WhatsApp', array('default_value' => $d['company_whatsapp']));
     $fields[] = crisbapro_acf_field('text', 'company_location', 'Localización', array('default_value' => $d['company_location']));
+    $fields[] = crisbapro_acf_field('textarea', 'privacy_first_layer', 'Formulario: información básica de protección de datos (primera capa)', array(
+        'default_value' => $d['privacy_first_layer'],
+        'rows'          => 8,
+        'instructions'  => 'Una línea por apartado, con el formato "Título: texto". Revisa este texto con tu asesor legal (responsable, finalidad, destinatarios y derechos).',
+    ));
 
     // 6. ESTILOS GLOBALES Y HERO
     $fields[] = crisbapro_acf_tab('styles', 'Estilos');
@@ -516,6 +523,26 @@ function crisbapro_form_recipients() {
     return apply_filters('crisbapro_form_recipients', $recipients);
 }
 
+// HTML (ya escapado) de la primera capa de información de protección de datos del formulario.
+// Cada línea "Título: texto" se muestra con el título en negrita.
+function crisbapro_privacy_first_layer_html() {
+    $text = crisbapro_front_field('privacy_first_layer', crisbapro_defaults()['privacy_first_layer']);
+    $html = '';
+    foreach (preg_split('/\r\n|\r|\n/', (string) $text) as $line) {
+        $line = trim($line);
+        if ($line === '') {
+            continue;
+        }
+        $pos = strpos($line, ':');
+        if ($pos !== false && $pos <= 30) {
+            $html .= '<p><strong>' . esc_html(substr($line, 0, $pos + 1)) . '</strong> ' . esc_html(trim(substr($line, $pos + 1))) . '</p>';
+        } else {
+            $html .= '<p>' . esc_html($line) . '</p>';
+        }
+    }
+    return $html;
+}
+
 // Opciones del selector "Tipo de Servicio" del formulario de contacto (slug => etiqueta).
 function crisbapro_service_options() {
     return array(
@@ -598,6 +625,10 @@ function crisbapro_handle_contact_form() {
     $servicio = sanitize_text_field($field('servicio'));
     $mensaje  = mb_substr(sanitize_textarea_field($field('presupuesto')), 0, 5000);
 
+    if ($field('privacidad') !== '1') {
+        wp_send_json_error(array('message' => 'Debes aceptar la Política de Privacidad para enviar el formulario.'), 400);
+    }
+
     if ($nombre === '' || !is_email($email) || $mensaje === '' || $servicio === '') {
         wp_send_json_error(array('message' => 'Faltan datos obligatorios o el email no es válido.'), 400);
     }
@@ -613,6 +644,7 @@ function crisbapro_handle_contact_form() {
             'Teléfono'             => $telefono !== '' ? $telefono : '(no indicado)',
             'Tipo de servicio'     => $servicio_label,
             'Descripción del proyecto' => "\n" . $mensaje,
+            'Consentimiento'       => 'Ha aceptado la Política de Privacidad (' . home_url('/politica-de-privacidad') . ') al enviar el formulario.',
         ),
         $email,
         $nombre
