@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 2.0.11
+ * Version: 2.0.12
  *
  * Changelog:
+ * 2.0.12 - Destinatarios del formulario: solo hola@crisbapro.com (principal) y webcreativo2@gmail.com (copia oculta); se quitan crisbavisual@gmail.com y cristian@crisbapro.com. Cada uno recibe su propio envío, así ninguno ve al otro.
  * 2.0.11 - El formulario también se envía a hola@crisbapro.com (cuenta que sí existe, en sustitución del buzón inexistente). El texto por defecto de la primera capa identifica al responsable con su nombre legal y usa cristian@crisbapro.com para el ejercicio de derechos.
  * 2.0.10 - Se quita un destinatario del formulario cuyo buzón no existe en el servidor (quedan 3). El texto por defecto de la primera capa usa hola@ para ejercer derechos. Nuevas plantillas front-page.php y page.php: las páginas creadas en Gutenberg (p. ej. Política de Privacidad) ahora muestran su contenido; la Home no cambia. Los enlaces del menú y del pie llevan a la Home cuando se está en otra página.
  * 2.0.9 - Las opciones del desplegable «Tipo de Servicio» del formulario se editan desde la Home (pestaña Contacto), una por línea. Campo ACF nuevo: contact_service_options.
@@ -36,7 +37,7 @@
  * 1.0.0 - Initial release
  */
 
-define('CRISBAPRO_VERSION', '2.0.11');
+define('CRISBAPRO_VERSION', '2.0.12');
 
 // ============================================================================
 // SETUP BÁSICO DEL TEMA
@@ -526,12 +527,12 @@ function crisbapro_get_location() {
 // ============================================================================
 
 // Destinatarios de TODOS los formularios. Para añadir o quitar uno, editar solo esta lista.
+// El primero es el destinatario principal; el resto reciben una copia oculta. Cada destinatario recibe su
+// propio envío (ver crisbapro_send_form_email), de modo que ninguno ve a los demás.
 function crisbapro_form_recipients() {
     $recipients = array(
-        'webcreativo2@gmail.com',
         'hola@crisbapro.com',
-        'crisbavisual@gmail.com',
-        'cristian@crisbapro.com',
+        'webcreativo2@gmail.com',
     );
     return apply_filters('crisbapro_form_recipients', $recipients);
 }
