@@ -4,7 +4,7 @@ Theme URI: https://crisbapro.com
 Author: WebMasterPro
 Author URI: https://webmasterpro.es
 Description: Professional signage company website theme for Madrid. Fully responsive, ACF-powered, SEO-optimized with Rank Math integration.
-Version: 2.0.1
+Version: 2.0.2
 Requires at least: 5.9
 Requires PHP: 7.4
 License: GPL v2 or later
@@ -18,6 +18,7 @@ Tags: landing-page, business, responsive, acf, seo
 Changelog:
 2.0.0 - Refactorización completa: migración a un único grupo ACF asignado a la Página de inicio (compatible con ACF Free). Eliminación de campos repetibles, CPTs y Options Page. Agregado panel de estilos (tipografía y colores).
 2.0.1 - Lightbox (pop-up) para ampliar las imágenes de servicios: se abre al hacer clic y se cierra con clic fuera, botón × o tecla ESC.
+2.0.2 - El formulario de contacto ahora envía el correo (antes no se enviaba nada): destinatarios webcreativo2@gmail.com, info@crisbapro.com y crisbavisual@gmail.com; Reply-To al visitante; campo anti-spam; el aviso de éxito solo aparece si el envío funcionó.
 
 Nota: este archivo solo contiene la cabecera del tema. Los estilos y las variables CSS
 (--color-primary, --color-secondary, --font-family, --hero-title-color, --hero-title-size...)

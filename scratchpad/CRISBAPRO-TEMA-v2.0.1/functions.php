@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 2.0.1
+ * Version: 2.0.2
  *
  * Changelog:
+ * 2.0.2 - Formulario de contacto: envío real por email a los 3 destinatarios (antes no se enviaba nada). Funciones reutilizables para futuros formularios: crisbapro_form_recipients() y crisbapro_send_form_email().
  * 2.0.1 - Lightbox (pop-up) para ampliar las imágenes de servicios: clic para abrir; clic fuera, botón × o tecla ESC para cerrar.
  * 2.0.0 - Refactorización completa: UN SOLO grupo ACF asignado a la Página de inicio (compatible con ACF Free). Servicios (6) y proyectos (6) como campos fijos. Panel de estilos (tipografía y colores). Sin CPTs, sin Options Page y sin campos repetibles.
  * 1.9.5 - Se eliminan los grupos con campos repetibles (no existen en ACF Free).
@@ -26,7 +27,7 @@
  * 1.0.0 - Initial release
  */
 
-define('CRISBAPRO_VERSION', '2.0.1');
+define('CRISBAPRO_VERSION', '2.0.2');
 
 // ============================================================================
 // SETUP BÁSICO DEL TEMA
@@ -496,6 +497,133 @@ function crisbapro_get_whatsapp() {
 function crisbapro_get_location() {
     return crisbapro_front_field('company_location', crisbapro_defaults()['company_location']);
 }
+
+// ============================================================================
+// FORMULARIOS - ENVÍO POR EMAIL
+// Todos los formularios del tema envían por crisbapro_send_form_email() y usan la
+// misma lista de destinatarios (crisbapro_form_recipients()).
+// ============================================================================
+
+// Destinatarios de TODOS los formularios. Para añadir o quitar uno, editar solo esta lista.
+function crisbapro_form_recipients() {
+    $recipients = array(
+        'webcreativo2@gmail.com',
+        'info@crisbapro.com',
+        'crisbavisual@gmail.com',
+    );
+    return apply_filters('crisbapro_form_recipients', $recipients);
+}
+
+// Opciones del selector "Tipo de Servicio" del formulario de contacto (slug => etiqueta).
+function crisbapro_service_options() {
+    return array(
+        'rotulos-luminosos'    => 'Rótulos Luminosos',
+        'letras-metalicas'     => 'Letras Metálicas',
+        'vinilos'              => 'Vinilos Decorativos',
+        'senaletica'           => 'Señalética',
+        'fachadas'             => 'Fachadas',
+        'rotulacion-artistica' => 'Rotulación Artística',
+        'impresion'            => 'Impresión Gran Formato',
+    );
+}
+
+// Envía un correo a todos los destinatarios. Devuelve true/false según el resultado de wp_mail().
+// $fields: array etiqueta => valor. $reply_to: email del visitante (para poder responderle).
+function crisbapro_send_form_email($form_label, array $fields, $reply_to = '', $reply_name = '') {
+    $recipients = array();
+    foreach (crisbapro_form_recipients() as $address) {
+        $address = sanitize_email($address);
+        if ($address && is_email($address)) {
+            $recipients[] = $address;
+        }
+    }
+    if (empty($recipients)) {
+        return false;
+    }
+
+    $one_line = function ($text) {
+        return trim(preg_replace('/[\r\n\t]+/', ' ', (string) $text));
+    };
+
+    $host = preg_replace('/^www\./', '', (string) wp_parse_url(home_url(), PHP_URL_HOST));
+    $headers = array('Content-Type: text/plain; charset=UTF-8');
+    if ($host !== '') {
+        $headers[] = 'From: CRISBAPRO Web <wordpress@' . $host . '>';
+    }
+
+    $reply_to = sanitize_email($reply_to);
+    if ($reply_to && is_email($reply_to)) {
+        $name = str_replace(array('"', '<', '>', ',', ';'), '', $one_line($reply_name));
+        $headers[] = 'Reply-To: ' . ($name !== '' ? $name . ' ' : '') . '<' . $reply_to . '>';
+    }
+
+    $subject = '[CRISBAPRO] ' . $one_line($form_label);
+    if ($reply_name !== '') {
+        $subject .= ' - ' . $one_line($reply_name);
+    }
+
+    $line = str_repeat('-', 40);
+    $body = 'Nuevo mensaje desde ' . home_url('/') . ' (formulario: ' . $one_line($form_label) . ')' . "\n" . $line . "\n";
+    foreach ($fields as $label => $value) {
+        $body .= $label . ': ' . $value . "\n";
+    }
+    $body .= $line . "\n" . 'Enviado: ' . current_time('d/m/Y H:i') . "\n";
+
+    return wp_mail($recipients, $subject, $body, $headers);
+}
+
+// Procesa el formulario de contacto (index.php, #presupuesto-form). main.js lo envía con fetch.
+function crisbapro_handle_contact_form() {
+    if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+        return;
+    }
+    if (!isset($_POST['crisbapro_form']) || $_POST['crisbapro_form'] !== 'contacto') {
+        return;
+    }
+
+    // Campo trampa anti-spam: las personas no lo ven; los bots lo rellenan. Se simula éxito sin enviar.
+    if (!empty($_POST['web'])) {
+        wp_send_json_success(array('message' => 'ok'));
+    }
+
+    $field = function ($key) {
+        return isset($_POST[$key]) ? wp_unslash($_POST[$key]) : '';
+    };
+
+    $nombre   = mb_substr(sanitize_text_field($field('nombre')), 0, 120);
+    $email    = sanitize_email($field('email'));
+    $telefono = mb_substr(sanitize_text_field($field('telefono')), 0, 40);
+    $servicio = sanitize_text_field($field('servicio'));
+    $mensaje  = mb_substr(sanitize_textarea_field($field('presupuesto')), 0, 5000);
+
+    if ($nombre === '' || !is_email($email) || $mensaje === '' || $servicio === '') {
+        wp_send_json_error(array('message' => 'Faltan datos obligatorios o el email no es válido.'), 400);
+    }
+
+    $options = crisbapro_service_options();
+    $servicio_label = isset($options[$servicio]) ? $options[$servicio] : $servicio;
+
+    $sent = crisbapro_send_form_email(
+        'Solicitud de presupuesto',
+        array(
+            'Nombre'               => $nombre,
+            'Email'                => $email,
+            'Teléfono'             => $telefono !== '' ? $telefono : '(no indicado)',
+            'Tipo de servicio'     => $servicio_label,
+            'Descripción del proyecto' => "\n" . $mensaje,
+        ),
+        $email,
+        $nombre
+    );
+
+    if (!$sent) {
+        error_log('CRISBAPRO: wp_mail() no pudo enviar el formulario de contacto.');
+        wp_send_json_error(array('message' => 'No se pudo enviar el correo.'), 500);
+    }
+
+    wp_send_json_success(array('message' => 'Enviado'));
+}
+add_action('init', 'crisbapro_handle_contact_form', 20);
 
 // ============================================================================
 // SOPORTE PARA BLOQUES GUTENBERG PERSONALIZADOS

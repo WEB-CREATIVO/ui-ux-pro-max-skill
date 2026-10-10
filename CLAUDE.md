@@ -97,6 +97,7 @@ Client theme kept in this repo. WordPress identifies a theme by its folder name,
 - Never rename, retype or delete an existing ACF field name/key in `functions.php`; saved Home content depends on them. Only add fields, then run `php scratchpad/crisbapro-check-fields.php scratchpad/CRISBAPRO-TEMA-v2.0.1 --update`.
 - Build the installable ZIP only with `bash scratchpad/build-crisbapro-zip.sh` (it enforces all of the above and keeps `CRISBAPRO-TEMA-v2.0.1/` as the ZIP root; `*.zip` is gitignored, deliver it as a file).
 - `screenshot.png` must not change (its hash is checked).
+- Every form in the theme must send through `crisbapro_send_form_email()` (functions.php). Recipients live in ONE place, `crisbapro_form_recipients()` (currently webcreativo2@gmail.com, info@crisbapro.com, crisbavisual@gmail.com). Never add a form that only POSTs to the page: v2.0.1 showed a fake "success" message because nothing processed the request.
 
 ## Git Workflow
 

@@ -190,6 +190,11 @@ $cp_is_editor = current_user_can('edit_pages');
     <div class="container">
         <h2>Solicita tu Presupuesto</h2>
         <form class="quote-form" id="presupuesto-form" method="POST" action="">
+            <input type="hidden" name="crisbapro_form" value="contacto">
+            <div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+                <label for="web">No rellenar este campo</label>
+                <input type="text" id="web" name="web" tabindex="-1" autocomplete="off">
+            </div>
             <div class="form-group">
                 <label for="nombre">Nombre Completo *</label>
                 <input type="text" id="nombre" name="nombre" required>
@@ -206,13 +211,9 @@ $cp_is_editor = current_user_can('edit_pages');
                 <label for="servicio">Tipo de Servicio *</label>
                 <select id="servicio" name="servicio" required>
                     <option value="">-- Selecciona un servicio --</option>
-                    <option value="rotulos-luminosos">Rótulos Luminosos</option>
-                    <option value="letras-metalicas">Letras Metálicas</option>
-                    <option value="vinilos">Vinilos Decorativos</option>
-                    <option value="senaletica">Señalética</option>
-                    <option value="fachadas">Fachadas</option>
-                    <option value="rotulacion-artistica">Rotulación Artística</option>
-                    <option value="impresion">Impresión Gran Formato</option>
+                    <?php foreach (crisbapro_service_options() as $slug => $label) : ?>
+                        <option value="<?php echo esc_attr($slug); ?>"><?php echo esc_html($label); ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="form-group">
