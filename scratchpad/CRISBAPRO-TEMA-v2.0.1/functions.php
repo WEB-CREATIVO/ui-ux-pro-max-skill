@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 2.0.8
+ * Version: 2.0.9
  *
  * Changelog:
+ * 2.0.9 - Las opciones del desplegable «Tipo de Servicio» del formulario se editan desde la Home (pestaña Contacto), una por línea. Campo ACF nuevo: contact_service_options.
  * 2.0.8 - Formulario: un envío por destinatario. Si un buzón es rechazado por el servidor, los demás reciben el correo y el visitante ve el aviso de éxito; el fallo se registra y los administradores ven qué destinatario falló y por qué.
  * 2.0.7 - Los archivos CSS/JS del tema conservan ?ver= (antes se quitaba y las cachés servían el JS antiguo tras actualizar). El aviso de error del formulario muestra a los usuarios logueados el código HTTP y el texto real de la respuesta, y ya no se solapa con la barra de administración.
  * 2.0.6 - El remitente del formulario pasa a ser hola@dominio, la cuenta configurada en el plugin SMTP (Easy WP SMTP).
@@ -33,7 +34,7 @@
  * 1.0.0 - Initial release
  */
 
-define('CRISBAPRO_VERSION', '2.0.8');
+define('CRISBAPRO_VERSION', '2.0.9');
 
 // ============================================================================
 // SETUP BÁSICO DEL TEMA
@@ -101,6 +102,7 @@ function crisbapro_defaults() {
         'company_email'    => 'cristian@crisbapro.com',
         'company_whatsapp' => '+34 608 78 20 15',
         'company_location' => 'Madrid, España',
+        'service_options' => "Rótulos Luminosos\nLetras Metálicas\nVinilos Decorativos\nSeñalética\nFachadas\nRotulación Artística\nImpresión Gran Formato",
         'privacy_first_layer' => "Responsable: CRISBAPRO.\nFinalidad: atender tu solicitud de presupuesto y ponernos en contacto contigo.\nLegitimación: tu consentimiento, al marcar la casilla y enviar el formulario.\nDestinatarios: no se cederán datos a terceros salvo obligación legal. Los proveedores de alojamiento web y correo electrónico acceden a los datos como encargados del tratamiento.\nDerechos: puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a info@crisbapro.com.\nInformación adicional: consulta la Política de Privacidad.",
     );
 }
@@ -394,6 +396,11 @@ function crisbapro_register_acf_fields() {
     $fields[] = crisbapro_acf_field('email', 'company_email', 'Email', array('default_value' => $d['company_email']));
     $fields[] = crisbapro_acf_field('text', 'company_whatsapp', 'WhatsApp', array('default_value' => $d['company_whatsapp']));
     $fields[] = crisbapro_acf_field('text', 'company_location', 'Localización', array('default_value' => $d['company_location']));
+    $fields[] = crisbapro_acf_field('textarea', 'contact_service_options', 'Formulario: opciones del desplegable «Tipo de Servicio» (una por línea)', array(
+        'default_value' => $d['service_options'],
+        'rows'          => 8,
+        'instructions'  => 'Escribe una opción por línea (máximo 20). Si lo dejas vacío se usan las opciones por defecto. El correo que recibes muestra la opción que elija el cliente.',
+    ));
     $fields[] = crisbapro_acf_field('textarea', 'privacy_first_layer', 'Formulario: información básica de protección de datos (primera capa)', array(
         'default_value' => $d['privacy_first_layer'],
         'rows'          => 8,
@@ -547,17 +554,24 @@ function crisbapro_privacy_first_layer_html() {
     return $html;
 }
 
-// Opciones del selector "Tipo de Servicio" del formulario de contacto (slug => etiqueta).
+// Opciones del desplegable "Tipo de Servicio" del formulario de contacto (lista de textos).
+// Se editan en la Home (pestaña Contacto), una por línea; si el campo está vacío se usan las de por defecto.
 function crisbapro_service_options() {
-    return array(
-        'rotulos-luminosos'    => 'Rótulos Luminosos',
-        'letras-metalicas'     => 'Letras Metálicas',
-        'vinilos'              => 'Vinilos Decorativos',
-        'senaletica'           => 'Señalética',
-        'fachadas'             => 'Fachadas',
-        'rotulacion-artistica' => 'Rotulación Artística',
-        'impresion'            => 'Impresión Gran Formato',
-    );
+    $defaults = preg_split('/\r\n|\r|\n/', crisbapro_defaults()['service_options']);
+    $text = crisbapro_front_field('contact_service_options', '');
+
+    $options = array();
+    foreach (preg_split('/\r\n|\r|\n/', (string) $text) as $line) {
+        $label = mb_substr(sanitize_text_field($line), 0, 80);
+        if ($label !== '' && !in_array($label, $options, true)) {
+            $options[] = $label;
+        }
+        if (count($options) >= 20) {
+            break;
+        }
+    }
+
+    return !empty($options) ? $options : $defaults;
 }
 
 // Último motivo de fallo de wp_mail() (para diagnóstico).
@@ -679,8 +693,7 @@ function crisbapro_handle_contact_form() {
         wp_send_json_error(array('message' => 'Faltan datos obligatorios o el email no es válido.'), 400);
     }
 
-    $options = crisbapro_service_options();
-    $servicio_label = isset($options[$servicio]) ? $options[$servicio] : $servicio;
+    $servicio_label = mb_substr($servicio, 0, 80);
 
     $sent = crisbapro_send_form_email(
         'Solicitud de presupuesto',

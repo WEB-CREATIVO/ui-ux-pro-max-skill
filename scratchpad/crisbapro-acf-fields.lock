@@ -204,6 +204,10 @@
         "field_cp_privacy_first_layer": {
             "name": "privacy_first_layer",
             "type": "textarea"
+        },
+        "field_cp_contact_service_options": {
+            "name": "contact_service_options",
+            "type": "textarea"
         }
     }
 }

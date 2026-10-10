@@ -211,8 +211,8 @@ $cp_is_editor = current_user_can('edit_pages');
                 <label for="servicio">Tipo de Servicio *</label>
                 <select id="servicio" name="servicio" required>
                     <option value="">-- Selecciona un servicio --</option>
-                    <?php foreach (crisbapro_service_options() as $slug => $label) : ?>
-                        <option value="<?php echo esc_attr($slug); ?>"><?php echo esc_html($label); ?></option>
+                    <?php foreach (crisbapro_service_options() as $label) : ?>
+                        <option value="<?php echo esc_attr($label); ?>"><?php echo esc_html($label); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
