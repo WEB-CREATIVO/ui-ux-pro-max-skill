@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 2.0.4
+ * Version: 2.0.5
  *
  * Changelog:
+ * 2.0.5 - Diagnóstico del formulario: el aviso de error muestra el motivo real del servidor (los administradores ven además el detalle técnico de wp_mail), el fallo se registra en el log, el visitante recibe teléfono y correo alternativos, y el remitente pasa a ser info@dominio.
  * 2.0.4 - Formulario de contacto conforme a protección de datos (RGPD/LOPDGDD): primera capa informativa editable, casilla obligatoria de aceptación de la Política de Privacidad (/politica-de-privacidad) validada también en el servidor, y constancia del consentimiento en el correo.
  * 2.0.3 - Formulario de contacto: se añade cristian@crisbapro.com como cuarto destinatario. El script de empaquetado verifica que todos los campos del formulario los procesa el servidor.
  * 2.0.2 - Formulario de contacto: envío real por email a los 3 destinatarios (antes no se enviaba nada). Funciones reutilizables para futuros formularios: crisbapro_form_recipients() y crisbapro_send_form_email().
@@ -29,7 +30,7 @@
  * 1.0.0 - Initial release
  */
 
-define('CRISBAPRO_VERSION', '2.0.4');
+define('CRISBAPRO_VERSION', '2.0.5');
 
 // ============================================================================
 // SETUP BÁSICO DEL TEMA
@@ -556,6 +557,22 @@ function crisbapro_service_options() {
     );
 }
 
+// Último motivo de fallo de wp_mail() (para diagnóstico).
+function crisbapro_mail_last_error($set = null) {
+    static $error = '';
+    if ($set !== null) {
+        $error = (string) $set;
+    }
+    return $error;
+}
+
+// Remitente del correo: un buzón del propio dominio del sitio (info@dominio). Filtrable.
+function crisbapro_form_from_address() {
+    $host = preg_replace('/^www\./', '', (string) wp_parse_url(home_url(), PHP_URL_HOST));
+    $from = $host !== '' ? 'info@' . $host : '';
+    return apply_filters('crisbapro_form_from_address', $from);
+}
+
 // Envía un correo a todos los destinatarios. Devuelve true/false según el resultado de wp_mail().
 // $fields: array etiqueta => valor. $reply_to: email del visitante (para poder responderle).
 function crisbapro_send_form_email($form_label, array $fields, $reply_to = '', $reply_name = '') {
@@ -567,6 +584,7 @@ function crisbapro_send_form_email($form_label, array $fields, $reply_to = '', $
         }
     }
     if (empty($recipients)) {
+        crisbapro_mail_last_error('No hay destinatarios válidos en crisbapro_form_recipients().');
         return false;
     }
 
@@ -574,10 +592,10 @@ function crisbapro_send_form_email($form_label, array $fields, $reply_to = '', $
         return trim(preg_replace('/[\r\n\t]+/', ' ', (string) $text));
     };
 
-    $host = preg_replace('/^www\./', '', (string) wp_parse_url(home_url(), PHP_URL_HOST));
     $headers = array('Content-Type: text/plain; charset=UTF-8');
-    if ($host !== '') {
-        $headers[] = 'From: CRISBAPRO Web <wordpress@' . $host . '>';
+    $from = sanitize_email(crisbapro_form_from_address());
+    if ($from && is_email($from)) {
+        $headers[] = 'From: CRISBAPRO Web <' . $from . '>';
     }
 
     $reply_to = sanitize_email($reply_to);
@@ -598,7 +616,19 @@ function crisbapro_send_form_email($form_label, array $fields, $reply_to = '', $
     }
     $body .= $line . "\n" . 'Enviado: ' . current_time('d/m/Y H:i') . "\n";
 
-    return wp_mail($recipients, $subject, $body, $headers);
+    crisbapro_mail_last_error('');
+    $listener = function ($wp_error) {
+        crisbapro_mail_last_error(is_wp_error($wp_error) ? $wp_error->get_error_message() : 'wp_mail_failed');
+    };
+    add_action('wp_mail_failed', $listener);
+    $sent = wp_mail($recipients, $subject, $body, $headers);
+    remove_action('wp_mail_failed', $listener);
+
+    if (!$sent && crisbapro_mail_last_error() === '') {
+        crisbapro_mail_last_error('wp_mail() devolvió false sin detalle (bloqueado por el servidor o por un plugin).');
+    }
+
+    return $sent;
 }
 
 // Procesa el formulario de contacto (index.php, #presupuesto-form). main.js lo envía con fetch.
@@ -651,8 +681,15 @@ function crisbapro_handle_contact_form() {
     );
 
     if (!$sent) {
-        error_log('CRISBAPRO: wp_mail() no pudo enviar el formulario de contacto.');
-        wp_send_json_error(array('message' => 'No se pudo enviar el correo.'), 500);
+        $detail = crisbapro_mail_last_error();
+        error_log('CRISBAPRO: no se pudo enviar el formulario de contacto: ' . $detail);
+        $payload = array(
+            'message' => 'No hemos podido enviar tu solicitud. Por favor, llámanos al ' . crisbapro_get_phone() . ' o escríbenos a ' . crisbapro_get_email() . '.',
+        );
+        if (current_user_can('manage_options')) {
+            $payload['debug'] = $detail;
+        }
+        wp_send_json_error($payload, 500);
     }
 
     wp_send_json_success(array('message' => 'Enviado'));

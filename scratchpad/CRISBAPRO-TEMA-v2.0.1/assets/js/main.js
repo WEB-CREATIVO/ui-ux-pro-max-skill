@@ -74,11 +74,24 @@ function handleFormSubmit(form) {
       showNotification('¡Presupuesto solicitado exitosamente! Nos pondremos en contacto pronto.', 'success');
       form.reset();
     } else {
-      throw new Error('Error in submission');
+      // Lee el motivo que devuelve el servidor (WordPress responde JSON con data.message / data.debug)
+      return response.json().catch(() => null).then(body => {
+        const data = body && body.data ? body.data : {};
+        const err = new Error('Error in submission');
+        err.userMessage = data.message || '';
+        err.debug = data.debug || '';
+        throw err;
+      });
     }
   })
   .catch(error => {
-    showNotification('Hubo un error al enviar el formulario. Por favor intenta de nuevo.', 'error');
+    const base = error.userMessage || 'Hubo un error al enviar el formulario. Por favor intenta de nuevo.';
+    if (error.debug) {
+      // Solo los administradores reciben el detalle técnico
+      showNotification(base + ' [Detalle técnico: ' + error.debug + ']', 'error', 20000);
+    } else {
+      showNotification(base, 'error', 8000);
+    }
   })
   .finally(() => {
     submitButton.textContent = originalText;
@@ -89,7 +102,7 @@ function handleFormSubmit(form) {
 /**
  * Show notification toast
  */
-function showNotification(message, type = 'info') {
+function showNotification(message, type = 'info', duration = 5000) {
   const notification = document.createElement('div');
   notification.className = `notification notification-${type}`;
   notification.textContent = message;
@@ -108,11 +121,11 @@ function showNotification(message, type = 'info') {
 
   document.body.appendChild(notification);
 
-  // Auto-dismiss after 5 seconds
+  // Auto-dismiss (5 segundos por defecto)
   setTimeout(() => {
     notification.style.animation = 'slideOut 0.3s ease-in';
     setTimeout(() => notification.remove(), 300);
-  }, 5000);
+  }, duration);
 }
 
 // Add animation keyframes
