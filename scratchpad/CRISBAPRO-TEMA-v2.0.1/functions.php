@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 2.0.9
+ * Version: 2.0.10
  *
  * Changelog:
+ * 2.0.10 - Se quita un destinatario del formulario cuyo buzón no existe en el servidor (quedan 3). El texto por defecto de la primera capa usa hola@ para ejercer derechos. Nuevas plantillas front-page.php y page.php: las páginas creadas en Gutenberg (p. ej. Política de Privacidad) ahora muestran su contenido; la Home no cambia. Los enlaces del menú y del pie llevan a la Home cuando se está en otra página.
  * 2.0.9 - Las opciones del desplegable «Tipo de Servicio» del formulario se editan desde la Home (pestaña Contacto), una por línea. Campo ACF nuevo: contact_service_options.
  * 2.0.8 - Formulario: un envío por destinatario. Si un buzón es rechazado por el servidor, los demás reciben el correo y el visitante ve el aviso de éxito; el fallo se registra y los administradores ven qué destinatario falló y por qué.
  * 2.0.7 - Los archivos CSS/JS del tema conservan ?ver= (antes se quitaba y las cachés servían el JS antiguo tras actualizar). El aviso de error del formulario muestra a los usuarios logueados el código HTTP y el texto real de la respuesta, y ya no se solapa con la barra de administración.
@@ -34,7 +35,7 @@
  * 1.0.0 - Initial release
  */
 
-define('CRISBAPRO_VERSION', '2.0.9');
+define('CRISBAPRO_VERSION', '2.0.10');
 
 // ============================================================================
 // SETUP BÁSICO DEL TEMA
@@ -103,7 +104,7 @@ function crisbapro_defaults() {
         'company_whatsapp' => '+34 608 78 20 15',
         'company_location' => 'Madrid, España',
         'service_options' => "Rótulos Luminosos\nLetras Metálicas\nVinilos Decorativos\nSeñalética\nFachadas\nRotulación Artística\nImpresión Gran Formato",
-        'privacy_first_layer' => "Responsable: CRISBAPRO.\nFinalidad: atender tu solicitud de presupuesto y ponernos en contacto contigo.\nLegitimación: tu consentimiento, al marcar la casilla y enviar el formulario.\nDestinatarios: no se cederán datos a terceros salvo obligación legal. Los proveedores de alojamiento web y correo electrónico acceden a los datos como encargados del tratamiento.\nDerechos: puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a info@crisbapro.com.\nInformación adicional: consulta la Política de Privacidad.",
+        'privacy_first_layer' => "Responsable: CRISBAPRO.\nFinalidad: atender tu solicitud de presupuesto y ponernos en contacto contigo.\nLegitimación: tu consentimiento, al marcar la casilla y enviar el formulario.\nDestinatarios: no se cederán datos a terceros salvo obligación legal. Los proveedores de alojamiento web y correo electrónico acceden a los datos como encargados del tratamiento.\nDerechos: puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a hola@crisbapro.com.\nInformación adicional: consulta la Política de Privacidad.",
     );
 }
 
@@ -527,7 +528,6 @@ function crisbapro_get_location() {
 function crisbapro_form_recipients() {
     $recipients = array(
         'webcreativo2@gmail.com',
-        'info@crisbapro.com',
         'crisbavisual@gmail.com',
         'cristian@crisbapro.com',
     );

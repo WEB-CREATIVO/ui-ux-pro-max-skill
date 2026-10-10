@@ -1106,3 +1106,26 @@ html.lightbox-open {
   font-weight: 600;
   text-decoration: underline;
 }
+
+/* ========================================
+   PÁGINAS (page.php): Política de Privacidad, etc.
+   ======================================== */
+
+.page-content {
+  padding: var(--spacing-3xl) 0;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.page-content .entry-content img,
+.page-content .entry-content iframe,
+.page-content .entry-content table {
+  max-width: 100%;
+}
+
+.page-content .entry-content img {
+  height: auto;
+}

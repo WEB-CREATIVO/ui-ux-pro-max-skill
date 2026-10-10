@@ -27,13 +27,15 @@
 
             <nav class="nav" id="main-nav">
                 <?php
+                // Fuera de la Home, los anclas apuntan a la Home (si no, el enlace no hace nada)
+                $cp_home = is_front_page() ? '' : home_url('/');
                 $menu_items = array(
-                    array('label' => 'Inicio', 'url' => '#inicio'),
-                    array('label' => 'Servicios', 'url' => '#servicios'),
-                    array('label' => 'Portfolio', 'url' => '#portfolio'),
-                    array('label' => 'Proceso', 'url' => '#proceso'),
-                    array('label' => 'Sectores', 'url' => '#sectores'),
-                    array('label' => 'Contacto', 'url' => '#contacto'),
+                    array('label' => 'Inicio', 'url' => $cp_home . '#inicio'),
+                    array('label' => 'Servicios', 'url' => $cp_home . '#servicios'),
+                    array('label' => 'Portfolio', 'url' => $cp_home . '#portfolio'),
+                    array('label' => 'Proceso', 'url' => $cp_home . '#proceso'),
+                    array('label' => 'Sectores', 'url' => $cp_home . '#sectores'),
+                    array('label' => 'Contacto', 'url' => $cp_home . '#contacto'),
                 );
                 ?>
                 <ul class="nav-menu">

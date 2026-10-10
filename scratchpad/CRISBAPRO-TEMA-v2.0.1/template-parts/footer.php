@@ -4,6 +4,7 @@
  */
 ?>
 
+<?php $cp_home = is_front_page() ? '' : home_url('/'); ?>
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -15,10 +16,10 @@
                 <div class="footer-section">
                     <h4>Servicios</h4>
                     <ul class="footer-links">
-                        <li><a href="#servicios">Rótulos Luminosos</a></li>
-                        <li><a href="#servicios">Letras Metálicas</a></li>
-                        <li><a href="#servicios">Vinilos Decorativos</a></li>
-                        <li><a href="#servicios">Señalética</a></li>
+                        <li><a href="<?php echo esc_url($cp_home . '#servicios'); ?>">Rótulos Luminosos</a></li>
+                        <li><a href="<?php echo esc_url($cp_home . '#servicios'); ?>">Letras Metálicas</a></li>
+                        <li><a href="<?php echo esc_url($cp_home . '#servicios'); ?>">Vinilos Decorativos</a></li>
+                        <li><a href="<?php echo esc_url($cp_home . '#servicios'); ?>">Señalética</a></li>
                     </ul>
                 </div>
 
