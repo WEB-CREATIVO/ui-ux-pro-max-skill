@@ -1,0 +1,205 @@
+{
+    "group": "group_crisbapro_config",
+    "fields": {
+        "field_cp_hero_title": {
+            "name": "hero_title",
+            "type": "text"
+        },
+        "field_cp_hero_subtitle": {
+            "name": "hero_subtitle",
+            "type": "textarea"
+        },
+        "field_cp_hero_image": {
+            "name": "hero_image",
+            "type": "image"
+        },
+        "field_cp_hero_cta_primary": {
+            "name": "hero_cta_primary",
+            "type": "text"
+        },
+        "field_cp_hero_cta_secondary": {
+            "name": "hero_cta_secondary",
+            "type": "text"
+        },
+        "field_cp_trust_title_1": {
+            "name": "trust_title_1",
+            "type": "text"
+        },
+        "field_cp_trust_desc_1": {
+            "name": "trust_desc_1",
+            "type": "textarea"
+        },
+        "field_cp_trust_title_2": {
+            "name": "trust_title_2",
+            "type": "text"
+        },
+        "field_cp_trust_desc_2": {
+            "name": "trust_desc_2",
+            "type": "textarea"
+        },
+        "field_cp_trust_title_3": {
+            "name": "trust_title_3",
+            "type": "text"
+        },
+        "field_cp_trust_desc_3": {
+            "name": "trust_desc_3",
+            "type": "textarea"
+        },
+        "field_cp_service_1_img": {
+            "name": "service_1_img",
+            "type": "image"
+        },
+        "field_cp_service_1_title": {
+            "name": "service_1_title",
+            "type": "text"
+        },
+        "field_cp_service_1_desc": {
+            "name": "service_1_desc",
+            "type": "textarea"
+        },
+        "field_cp_service_2_img": {
+            "name": "service_2_img",
+            "type": "image"
+        },
+        "field_cp_service_2_title": {
+            "name": "service_2_title",
+            "type": "text"
+        },
+        "field_cp_service_2_desc": {
+            "name": "service_2_desc",
+            "type": "textarea"
+        },
+        "field_cp_service_3_img": {
+            "name": "service_3_img",
+            "type": "image"
+        },
+        "field_cp_service_3_title": {
+            "name": "service_3_title",
+            "type": "text"
+        },
+        "field_cp_service_3_desc": {
+            "name": "service_3_desc",
+            "type": "textarea"
+        },
+        "field_cp_service_4_img": {
+            "name": "service_4_img",
+            "type": "image"
+        },
+        "field_cp_service_4_title": {
+            "name": "service_4_title",
+            "type": "text"
+        },
+        "field_cp_service_4_desc": {
+            "name": "service_4_desc",
+            "type": "textarea"
+        },
+        "field_cp_service_5_img": {
+            "name": "service_5_img",
+            "type": "image"
+        },
+        "field_cp_service_5_title": {
+            "name": "service_5_title",
+            "type": "text"
+        },
+        "field_cp_service_5_desc": {
+            "name": "service_5_desc",
+            "type": "textarea"
+        },
+        "field_cp_service_6_img": {
+            "name": "service_6_img",
+            "type": "image"
+        },
+        "field_cp_service_6_title": {
+            "name": "service_6_title",
+            "type": "text"
+        },
+        "field_cp_service_6_desc": {
+            "name": "service_6_desc",
+            "type": "textarea"
+        },
+        "field_cp_project_1_img": {
+            "name": "project_1_img",
+            "type": "image"
+        },
+        "field_cp_project_1_title": {
+            "name": "project_1_title",
+            "type": "text"
+        },
+        "field_cp_project_2_img": {
+            "name": "project_2_img",
+            "type": "image"
+        },
+        "field_cp_project_2_title": {
+            "name": "project_2_title",
+            "type": "text"
+        },
+        "field_cp_project_3_img": {
+            "name": "project_3_img",
+            "type": "image"
+        },
+        "field_cp_project_3_title": {
+            "name": "project_3_title",
+            "type": "text"
+        },
+        "field_cp_project_4_img": {
+            "name": "project_4_img",
+            "type": "image"
+        },
+        "field_cp_project_4_title": {
+            "name": "project_4_title",
+            "type": "text"
+        },
+        "field_cp_project_5_img": {
+            "name": "project_5_img",
+            "type": "image"
+        },
+        "field_cp_project_5_title": {
+            "name": "project_5_title",
+            "type": "text"
+        },
+        "field_cp_project_6_img": {
+            "name": "project_6_img",
+            "type": "image"
+        },
+        "field_cp_project_6_title": {
+            "name": "project_6_title",
+            "type": "text"
+        },
+        "field_cp_company_phone": {
+            "name": "company_phone",
+            "type": "text"
+        },
+        "field_cp_company_email": {
+            "name": "company_email",
+            "type": "email"
+        },
+        "field_cp_company_whatsapp": {
+            "name": "company_whatsapp",
+            "type": "text"
+        },
+        "field_cp_company_location": {
+            "name": "company_location",
+            "type": "text"
+        },
+        "field_cp_global_font_family": {
+            "name": "global_font_family",
+            "type": "select"
+        },
+        "field_cp_color_primary": {
+            "name": "color_primary",
+            "type": "text"
+        },
+        "field_cp_color_secondary": {
+            "name": "color_secondary",
+            "type": "text"
+        },
+        "field_cp_hero_title_color": {
+            "name": "hero_title_color",
+            "type": "text"
+        },
+        "field_cp_hero_title_size": {
+            "name": "hero_title_size",
+            "type": "number"
+        }
+    }
+}

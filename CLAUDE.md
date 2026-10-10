@@ -88,6 +88,16 @@ When modifying files:
 
 Python 3.x (no external dependencies required)
 
+## CRISBAPRO WordPress theme (scratchpad/CRISBAPRO-TEMA-v2.0.1)
+
+Client theme kept in this repo. WordPress identifies a theme by its folder name, and the Customizer logo/menus are stored per folder name, so:
+
+- Edit the theme **in place** in `scratchpad/CRISBAPRO-TEMA-v2.0.1`. Never copy it to a new folder name; the folder name stays `CRISBAPRO-TEMA-v2.0.1` forever, even for 3.x.
+- Bump the version in all three places (`style.css`, `functions.php` header, `CRISBAPRO_VERSION`) and add a changelog entry.
+- Never rename, retype or delete an existing ACF field name/key in `functions.php`; saved Home content depends on them. Only add fields, then run `php scratchpad/crisbapro-check-fields.php scratchpad/CRISBAPRO-TEMA-v2.0.1 --update`.
+- Build the installable ZIP only with `bash scratchpad/build-crisbapro-zip.sh` (it enforces all of the above and keeps `CRISBAPRO-TEMA-v2.0.1/` as the ZIP root; `*.zip` is gitignored, deliver it as a file).
+- `screenshot.png` must not change (its hash is checked).
+
 ## Git Workflow
 
 Never push directly to `main`. Always:
