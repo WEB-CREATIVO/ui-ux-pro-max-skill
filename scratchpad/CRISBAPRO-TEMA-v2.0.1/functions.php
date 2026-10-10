@@ -2,9 +2,10 @@
 /**
  * CRISBAPRO Theme Functions
  * Professional Signage Company Website
- * Version: 2.0.7
+ * Version: 2.0.8
  *
  * Changelog:
+ * 2.0.8 - Formulario: un envío por destinatario. Si un buzón es rechazado por el servidor, los demás reciben el correo y el visitante ve el aviso de éxito; el fallo se registra y los administradores ven qué destinatario falló y por qué.
  * 2.0.7 - Los archivos CSS/JS del tema conservan ?ver= (antes se quitaba y las cachés servían el JS antiguo tras actualizar). El aviso de error del formulario muestra a los usuarios logueados el código HTTP y el texto real de la respuesta, y ya no se solapa con la barra de administración.
  * 2.0.6 - El remitente del formulario pasa a ser hola@dominio, la cuenta configurada en el plugin SMTP (Easy WP SMTP).
  * 2.0.5 - Diagnóstico del formulario: el aviso de error muestra el motivo real del servidor (los administradores ven además el detalle técnico de wp_mail), el fallo se registra en el log, el visitante recibe teléfono y correo alternativos, y el remitente pasa a ser info@dominio.
@@ -32,7 +33,7 @@
  * 1.0.0 - Initial release
  */
 
-define('CRISBAPRO_VERSION', '2.0.7');
+define('CRISBAPRO_VERSION', '2.0.8');
 
 // ============================================================================
 // SETUP BÁSICO DEL TEMA
@@ -619,19 +620,31 @@ function crisbapro_send_form_email($form_label, array $fields, $reply_to = '', $
     }
     $body .= $line . "\n" . 'Enviado: ' . current_time('d/m/Y H:i') . "\n";
 
-    crisbapro_mail_last_error('');
-    $listener = function ($wp_error) {
-        crisbapro_mail_last_error(is_wp_error($wp_error) ? $wp_error->get_error_message() : 'wp_mail_failed');
-    };
-    add_action('wp_mail_failed', $listener);
-    $sent = wp_mail($recipients, $subject, $body, $headers);
-    remove_action('wp_mail_failed', $listener);
+    // Un envío por destinatario: si el servidor rechaza un buzón (p. ej. no existe), los demás reciben
+    // el correo igualmente y se sabe exactamente cuál ha fallado.
+    $failures = array();
+    foreach ($recipients as $address) {
+        $error = '';
+        $listener = function ($wp_error) use (&$error) {
+            $error = is_wp_error($wp_error) ? $wp_error->get_error_message() : 'wp_mail_failed';
+        };
+        add_action('wp_mail_failed', $listener);
+        $delivered = wp_mail($address, $subject, $body, $headers);
+        remove_action('wp_mail_failed', $listener);
 
-    if (!$sent && crisbapro_mail_last_error() === '') {
-        crisbapro_mail_last_error('wp_mail() devolvió false sin detalle (bloqueado por el servidor o por un plugin).');
+        if (!$delivered) {
+            $failures[$address] = $error !== '' ? $error : 'wp_mail() devolvió false sin detalle (bloqueado por el servidor o por un plugin).';
+        }
     }
 
-    return $sent;
+    $summary = array();
+    foreach ($failures as $address => $error) {
+        $summary[] = $address . ': ' . $error;
+    }
+    crisbapro_mail_last_error(implode(' | ', $summary));
+
+    // Éxito si al menos un destinatario lo ha recibido.
+    return count($failures) < count($recipients);
 }
 
 // Procesa el formulario de contacto (index.php, #presupuesto-form). main.js lo envía con fetch.
@@ -695,7 +708,16 @@ function crisbapro_handle_contact_form() {
         wp_send_json_error($payload, 500);
     }
 
-    wp_send_json_success(array('message' => 'Enviado'));
+    // Enviado a alguien, pero puede haber fallado algún destinatario: se registra y solo se avisa a administradores.
+    $payload = array('message' => 'Enviado');
+    $partial = crisbapro_mail_last_error();
+    if ($partial !== '') {
+        error_log('CRISBAPRO: formulario enviado, pero falló para algún destinatario: ' . $partial);
+        if (current_user_can('manage_options')) {
+            $payload['warning'] = $partial;
+        }
+    }
+    wp_send_json_success($payload);
 }
 add_action('init', 'crisbapro_handle_contact_form', 20);
 

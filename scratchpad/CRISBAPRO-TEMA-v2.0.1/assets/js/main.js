@@ -73,6 +73,14 @@ function handleFormSubmit(form) {
       // Show success message
       showNotification('¡Presupuesto solicitado exitosamente! Nos pondremos en contacto pronto.', 'success');
       form.reset();
+      // Solo administradores: si algún destinatario falló, se avisa (la solicitud sí se ha enviado)
+      return response.text().then(text => {
+        let body = null;
+        try { body = JSON.parse(text); } catch (e) { body = null; }
+        if (body && body.data && body.data.warning) {
+          showNotification('Aviso para administradores: la solicitud se envió, pero falló para: ' + body.data.warning, 'error', 20000);
+        }
+      }).catch(() => {});
     } else {
       // Lee la respuesta del servidor: JSON de WordPress (data.message / data.debug) o, si no lo es, el texto en bruto
       return response.text().then(text => {
@@ -119,7 +127,9 @@ function showNotification(message, type = 'info', duration = 5000) {
   const notification = document.createElement('div');
   notification.className = `notification notification-${type}`;
   notification.textContent = message;
-  const topOffset = document.body.classList.contains('admin-bar') ? '60px' : '20px';
+  // Los avisos se apilan (uno debajo de otro) y quedan por debajo de la barra de administración
+  const baseTop = document.body.classList.contains('admin-bar') ? 60 : 20;
+  const topOffset = (baseTop + document.querySelectorAll('.notification').length * 72) + 'px';
   notification.style.cssText = `
     position: fixed;
     top: ${topOffset};
