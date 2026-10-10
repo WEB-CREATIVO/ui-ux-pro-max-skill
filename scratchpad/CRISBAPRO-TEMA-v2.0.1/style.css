@@ -27,7 +27,7 @@ Changelog:
 2.0.8 - Formulario: un envío por destinatario; un buzón rechazado ya no convierte un envío correcto en error.
 2.0.9 - Las opciones del desplegable «Tipo de Servicio» se editan desde la Home (pestaña Contacto).
 2.0.10 - Destinatarios del formulario: se quita el buzón inexistente. Plantillas front-page.php y page.php para mostrar las páginas de Gutenberg.
-2.0.11 - El formulario también se envía a hola@crisbapro.com.
+2.0.11 - El formulario también se envía a hola@crisbapro.com. Primera capa por defecto: responsable con nombre legal y cristian@crisbapro.com para ejercer derechos.
 
 Nota: este archivo solo contiene la cabecera del tema. Los estilos y las variables CSS
 (--color-primary, --color-secondary, --font-family, --hero-title-color, --hero-title-size...)
