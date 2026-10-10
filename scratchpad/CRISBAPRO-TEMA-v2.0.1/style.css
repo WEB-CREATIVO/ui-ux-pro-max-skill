@@ -4,7 +4,7 @@ Theme URI: https://crisbapro.com
 Author: WebMasterPro
 Author URI: https://webmasterpro.es
 Description: Professional signage company website theme for Madrid. Fully responsive, ACF-powered, SEO-optimized with Rank Math integration.
-Version: 2.0.10
+Version: 2.0.11
 Requires at least: 5.9
 Requires PHP: 7.4
 License: GPL v2 or later
@@ -27,6 +27,7 @@ Changelog:
 2.0.8 - Formulario: un envío por destinatario; un buzón rechazado ya no convierte un envío correcto en error.
 2.0.9 - Las opciones del desplegable «Tipo de Servicio» se editan desde la Home (pestaña Contacto).
 2.0.10 - Destinatarios del formulario: se quita el buzón inexistente. Plantillas front-page.php y page.php para mostrar las páginas de Gutenberg.
+2.0.11 - El formulario también se envía a hola@crisbapro.com.
 
 Nota: este archivo solo contiene la cabecera del tema. Los estilos y las variables CSS
 (--color-primary, --color-secondary, --font-family, --hero-title-color, --hero-title-size...)
